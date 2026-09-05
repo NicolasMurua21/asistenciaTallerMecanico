@@ -1,0 +1,31 @@
+# Base de datos local SQLite (para no subir datos de prueba)
+*.db
+*.sqlite
+*.sqlite3
+
+# Entornos virtuales de Python
+venv/
+.venv/
+env/
+ENV/
+
+# Archivos de caché de Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de compilación e instalación (PyInstaller)
+build/
+dist/
+*.exe
+*.spec
+
+# Configuración e historial de editores (VS Code, Rider, etc.)
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos temporales del sistema
+.DS_Store
+Thumbs.db
