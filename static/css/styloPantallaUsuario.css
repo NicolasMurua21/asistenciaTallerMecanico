@@ -218,3 +218,14 @@ body {
 .info-box i {
     font-size: 16px;
 }
+.logo-img {
+    width: 190px; /* Ajusta el tamaño según sea necesario */
+    height: auto;
+    margin-bottom: 10px;
+}
+#brand-title {
+    color: #ffb703;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
