@@ -1,0 +1,160 @@
+/* 1. Reset básico y colores generales */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #05162a;
+  color: #ffffff;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* 2. Barra lateral (Sidebar) */
+aside {
+  width: 250px;
+  min-width: 250px; /* Mantiene el ancho fijo para evitar superposiciones */
+  background-color: #081d34;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Limita la imagen para que encaje perfecto adentro del menú */
+aside img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px auto;
+  border-radius: 8px; /* Bordes suaves para la imagen */
+}
+
+.logo-container p {
+  font-size: 11px;
+  color: #8da4c4;
+  font-weight: bold;
+}
+
+/* 3. Contenido Principal */
+main {
+  flex: 1;
+  padding: 40px;
+}
+
+header {
+  margin-bottom: 30px; /* Separación amplia abajo del título de bienvenida */
+}
+
+header h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+header p {
+  color: #8da4c4;
+  font-size: 14px;
+}
+
+/* Contenedor azul del panel */
+section {
+  background-color: #0a2544;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #143c6d;
+}
+
+/* Título dentro de la sección "Funciones de Administración" */
+section h2 {
+  font-size: 18px;
+  margin-bottom: 25px; /* Separación respecto a la grilla de botones */
+  color: #ffffff;
+}
+
+/* Contenedor de la grilla de botones */
+section > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espaciado uniforme entre botones */
+}
+
+/* 4. Estilo de los Botones */
+button {
+  background-color: #0b2f56;
+  color: #ffcc00;
+  border: 1px solid #18477d;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Los 6 botones principales del panel (3 por fila) */
+section button {
+  width: calc(33.33% - 14px);
+}
+
+/* Botón de la barra lateral (Administración) */
+aside nav button {
+  width: 100%;
+  background-color: #ffcc00;
+  color: #081d34;
+  flex-direction: row;
+}
+
+/* Botón de salida (Cerrar sesión) */
+aside > button {
+  background: transparent;
+  border: none;
+  color: #8da4c4;
+  flex-direction: row;
+}
+
+/* Efecto al pasar el mouse u opción activa */
+button:hover, button.active {
+  background-color: #ffcc00;
+  color: #081d34;
+}
+
+/* Pie / Cartel informativo */
+footer {
+  margin-top: 25px;
+  background-color: #081d34;
+  border: 1px solid #143254;
+  border-radius: 8px;
+  padding: 12px 16px;
+}
+
+footer p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #8da4c4;
+}
+
+footer strong {
+  background-color: #ffcc00;
+  color: #081d34;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
