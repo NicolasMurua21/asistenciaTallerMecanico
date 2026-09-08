@@ -33,17 +33,16 @@
                     <span>Inicio</span>
                 </a>
                 <a href="#" class="menu-item">
-                    <i class="fa-regular fa-clock"></i>
+                    <i class="fa-regular fa-clock"id="presentismo"></i>
                     <span>Mi Presentismo</span>
                 </a>
                 <a href="#" class="menu-item">
-                    <i class="fa-regular fa-calendar-days"></i>
+                    <i class="fa-regular fa-calendar-days" id="historial"></i>
                     <span>Historial</span>
                 </a>
             </nav>
-
             <a href="#" class="logout">
-                <i class="fa-solid fa-right-from-bracket"></i>
+                <i class="fa-solid fa-right-from-bracket"id="cerrarSesion"></i>
                 <span>Cerrar sesión</span>
             </a>
         </aside>
@@ -58,7 +57,7 @@
                     <h1>Registro Rápido (Empleado)</h1>
                 </div>
 
-                <p class="subtitle">Ingrese su DNI o PIN para fichar.</p>
+                <p class="subtitle" id="imputdni">Ingrese su DNI o PIN para fichar.</p>
 
                 <form class="form-container" onsubmit="event.preventDefault();">
                     <div class="input-group">
@@ -67,19 +66,19 @@
                     </div>
 
                     <div class="buttons-grid">
-                        <button type="button" class="btn btn-green">
+                        <button type="button" class="btn btn-green"id="btnRegistrarIngreso">
                             <i class="fa-solid fa-arrow-right-arrow-left"></i>
                             Registrar Ingreso
                         </button>
-                        <button type="button" class="btn btn-red">
+                        <button type="button" class="btn btn-red"id="btnRegistrarEgreso">
                             <i class="fa-solid fa-arrow-right-from-bracket"></i>
                             Registrar Egreso
                         </button>
-                        <button type="button" class="btn btn-white">
+                        <button type="button" class="btn btn-white"id="btnSalidaIntermedia">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                             Salida Intermedia
                         </button>
-                        <button type="button" class="btn btn-white">
+                        <button type="button" class="btn btn-white"id="btnReingreso">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                             Reingreso
                         </button>
