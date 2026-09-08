@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Taller Murua - Presentismo</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../static/css/styloPresentismo.css">
+
+</head>
+
+
+<body>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+
+    <div class="layout">
+
+
+        <!-- =========================
+             BARRA LATERAL
+        ========================== -->
+
+        <aside class="sidebar">
+
+
+            <!-- LOGO -->
+
+            <div class="brand">
+<img src="../templates/imagenes/LOGO PRINCIPAL (SOLO AUTO).jpeg" alt="Logo Taller Murua" class="logo-img">
+                
+                <h2>TALLER MURUA</h2>
+
+                <p>SISTEMA DE GESTIÓN DE EMPLEADOS</p>
+
+            </div>
+
+
+            <!-- MENÚ -->
+
+            <nav class="menu">
+
+                <a href="#" class="menu-item">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    <span>Inicio</span>
+
+                </a>
+
+
+                <a href="#" class="menu-item active">
+
+                    <i class="fa-solid fa-clock"></i>
+
+                    <span>Ver Presentismo</span>
+
+                </a>
+
+
+                <a href="#" class="menu-item">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                    <span>Historial de Asistencias</span>
+
+                </a>
+
+            </nav>
+
+
+            <!-- CERRAR SESIÓN -->
+
+            <div class="logout">
+
+                <a href="#" class="menu-item">
+
+                    <i class="fa-solid fa-right-from-bracket"id="cerrar sesion"></i>
+
+                    <span>Cerrar sesión</span>
+
+                </a>
+
+            </div>
+
+
+        </aside>
+
+
+
+        <!-- =========================
+             CONTENIDO PRINCIPAL
+        ========================== -->
+
+        <main class="main-content">
+
+
+            <!-- ENCABEZADO -->
+
+            <header class="header">
+
+                <div class="header-title">
+
+                    <div class="title-icon">
+
+                        <i class="fa-solid fa-clock"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h1>Ver Presentismo</h1>
+
+                        <p>Estado actual del personal en el taller</p>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- =========================
+                 TARJETAS
+            ========================== -->
+
+            <section class="cards">
+
+
+                <!-- PRESENTES -->
+
+                <div class="card">
+
+                    <div class="card-icon green">
+
+                        <i class="fa-solid fa-user"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>Presentes</h3>
+
+                    </div>
+
+                </div>
+
+
+                <!-- AUSENTES -->
+
+                <div class="card">
+
+                    <div class="card-icon yellow">
+
+                        <i class="fa-solid fa-clock"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>Ausentes</h3>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SALIDAS -->
+
+                <div class="card">
+
+                    <div class="card-icon blue">
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>Salidas Intermedias</h3>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TOTAL -->
+
+                <div class="card">
+
+                    <div class="card-icon blue">
+
+                        <i class="fa-solid fa-calendar-days"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>Total de empleados</h3>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- =========================
+                 BUSCADOR Y FILTROS
+            ========================== -->
+
+            <section class="filters">
+
+
+                <!-- BUSCAR -->
+
+                <div class="search">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        placeholder="Buscar empleado..."
+                    >
+
+                </div>
+
+
+                <!-- ESTADO -->
+
+                <select>
+
+                    <option>Todos los estados</option>
+
+                    <option>Presentes</option>
+
+                    <option>Ausentes</option>
+
+                    <option>Salida Intermedia</option>
+
+                </select>
+
+
+                <!-- TURNO -->
+
+                <select>
+
+                    <option>Turno actual</option>
+
+                    <option>Mañana</option>
+
+                    <option>Tarde</option>
+
+                </select>
+
+
+            </section>
+
+
+
+            <!-- =========================
+                 TABLA
+            ========================== -->
+
+            <section class="table-container">
+
+
+                <table>
+
+
+                    <!-- ENCABEZADO -->
+
+                    <thead>
+
+                        <tr>
+
+                            <th>N°</th>
+
+                            <th>Empleado</th>
+
+                            <th>DNI</th>
+
+                            <th>Turno</th>
+
+                            <th>Último registro</th>
+
+                            <th>Estado</th>
+
+                    
+
+                        </tr>
+
+                    </thead>
+
+
+                    <!-- CUERPO VACÍO -->
+
+                    <tbody>
+
+                    </tbody>
+
+
+                </table>
+
+
+                <!-- PIE DE TABLA -->
+
+                <div class="table-footer">
+
+                    <span>Mostrando 0 empleados</span>
+
+
+                    <div class="pagination">
+
+                        <button>
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+
+                        <button class="current">
+                            1
+                        </button>
+
+                        <button>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+</body>
+
+</html>
