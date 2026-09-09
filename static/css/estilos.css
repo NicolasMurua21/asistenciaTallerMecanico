@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+
+    background: #003b9b;
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor {
+    width: 90%;
+    max-width: 1000px;
+    text-align: center;
+}
+
+
+.contenedor h1 {
+    color: #ffc21c;
+    font-size: 42px;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.contenedor > h2 {
+    font-size: 21px;
+    margin-bottom: 45px;
+}
+
+.contenedor h3 {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.contenedor > p {
+    font-size: 20px;
+    margin-bottom: 35px;
+}
+
+
+.roles {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.carta-empleado,
+.carta-administrador {
+    width: 390px;
+    min-height: 400px;
+
+    padding: 40px 30px;
+
+    background: rgba(0, 55, 150, 0.65);
+
+    border: 1px solid #2185ff;
+    border-radius: 22px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+
+.carta-empleado h2,
+.carta-administrador h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+}
+
+
+
+
+.carta-empleado p,
+.carta-administrador p {
+    font-size: 19px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+
+
+
+button {
+    width: 100%;
+    padding: 16px 20px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #ffc21c;
+    color: #003b9b;
+
+    font-size: 17px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+button:hover {
+    background: #ffd34f;
+    transform: translateY(-2px);
+}
+
+
+
+
+.aviso {
+    margin-top: 45px;
+}
+
+.span {
+    display: inline-block;
+
+    padding: 18px 25px;
+
+    border: 1px solid #2185ff;
+    border-radius: 12px;
+
+    color: white;
+    font-size: 16px;
+    margin-top: 15px;
+
+    background: rgba(0, 55, 150, 0.5);
+}
