@@ -7,17 +7,15 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Taller Murua - Presentismo</title>
+    <title>Taller Murua - Gestionar Turnos</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../static/css/styloPresentismo.css">
+    <link rel="stylesheet" href="../static/css/styloGestionDeTurnos.css">
 
 </head>
 
 
 <body>
-
-    <!-- CONTENEDOR PRINCIPAL -->
 
     <div class="layout">
 
@@ -28,12 +26,12 @@
 
         <aside class="sidebar">
 
-
             <!-- LOGO -->
 
             <div class="brand">
-<img src="../templates/imagenes/LOGO PRINCIPAL (SOLO AUTO).jpeg" alt="Logo Taller Murua" class="logo-img">
-                
+
+                <img src="../templates/imagenes/LOGO PRINCIPAL (SOLO AUTO).jpeg" alt="Logo Taller Murua" class="logo-img">
+
                 <h2>TALLER MURUA</h2>
 
                 <p>SISTEMA DE GESTIÓN DE EMPLEADOS</p>
@@ -54,7 +52,7 @@
                 </a>
 
 
-                <a href="#" class="menu-item active">
+                <a href="#" class="menu-item">
 
                     <i class="fa-solid fa-clock"></i>
 
@@ -71,6 +69,33 @@
 
                 </a>
 
+
+                <a href="#" class="menu-item active">
+
+                    <i class="fa-solid fa-rotate"></i>
+
+                    <span>Gestionar Turnos</span>
+
+                </a>
+
+
+                <a href="#" class="menu-item">
+
+                    <i class="fa-solid fa-user-xmark"></i>
+
+                    <span>Registrar Ausencias</span>
+
+                </a>
+
+
+                <a href="#" class="menu-item">
+
+                    <i class="fa-solid fa-pen"></i>
+
+                    <span>Modificar Asistencia</span>
+
+                </a>
+
             </nav>
 
 
@@ -80,14 +105,13 @@
 
                 <a href="#" class="menu-item">
 
-                    <i class="fa-solid fa-right-from-bracket"id="cerrar"></i>
+                    <i class="fa-solid fa-right-from-bracket"></i>
 
                     <span>Cerrar sesión</span>
 
                 </a>
 
             </div>
-
 
         </aside>
 
@@ -112,11 +136,12 @@
 
                     </div>
 
+
                     <div>
 
-                        <h1>Ver Presentismo</h1>
+                        <h1>Gestionar Turnos</h1>
 
-                        <p>Estado actual del personal en el taller</p>
+                        <p>Asignación y administración de turnos rotativos</p>
 
                     </div>
 
@@ -133,70 +158,11 @@
             <section class="cards">
 
 
-                <!-- PRESENTES -->
-
-                <div class="card">
-
-                    <div class="card-icon green">
-
-                        <i class="fa-solid fa-user"></i>
-
-                    </div>
-
-                    <div>
-
-                        <h3>Presentes</h3>
-
-                    </div>
-
-                </div>
-
-
-                <!-- AUSENTES -->
-
-                <div class="card">
-
-                    <div class="card-icon yellow">
-
-                        <i class="fa-solid fa-clock"></i>
-
-                    </div>
-
-                    <div>
-
-                        <h3>Ausentes</h3>
-
-                    </div>
-
-                </div>
-
-
-                <!-- SALIDAS -->
-
                 <div class="card">
 
                     <div class="card-icon blue">
 
-                        <i class="fa-solid fa-right-from-bracket"></i>
-
-                    </div>
-
-                    <div>
-
-                        <h3>Salidas Intermedias</h3>
-
-                    </div>
-
-                </div>
-
-
-                <!-- TOTAL -->
-
-                <div class="card">
-
-                    <div class="card-icon blue">
-
-                        <i class="fa-solid fa-calendar-days"></i>
+                        <i class="fa-solid fa-users"></i>
 
                     </div>
 
@@ -204,10 +170,79 @@
 
                         <h3>Total de empleados</h3>
 
+                        <strong></strong>
+
+                        <p></p>
+
                     </div>
 
                 </div>
 
+
+
+                <div class="card">
+
+                    <div class="card-icon yellow">
+
+                        <i class="fa-solid fa-sun"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>Turno Mañana</h3>
+
+                        <strong></strong>
+
+                        <p></p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="card">
+
+                    <div class="card-icon blue">
+
+                        <i class="fa-solid fa-moon"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>Turno Tarde</h3>
+
+                        <strong></strong>
+
+                        <p></p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="card">
+
+                    <div class="card-icon blue">
+
+                        <i class="fa-solid fa-rotate"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>Esquema actual</h3>
+
+                        <strong></strong>
+
+                        <p></p>
+
+                    </div>
+
+                </div>
 
             </section>
 
@@ -219,8 +254,6 @@
 
             <section class="filters">
 
-
-                <!-- BUSCAR -->
 
                 <div class="search">
 
@@ -234,26 +267,9 @@
                 </div>
 
 
-                <!-- ESTADO -->
-
                 <select>
 
-                    <option>Todos los estados</option>
-
-                    <option>Presentes</option>
-
-                    <option>Ausentes</option>
-
-                    <option>Salida Intermedia</option>
-
-                </select>
-
-
-                <!-- TURNO -->
-
-                <select>
-
-                    <option>Turno actual</option>
+                    <option>Todos los turnos</option>
 
                     <option>Mañana</option>
 
@@ -261,6 +277,16 @@
 
                 </select>
 
+
+                <select>
+
+                    <option>Todos los esquemas</option>
+
+                    <option>Rotativo</option>
+
+                    <option>Fijo</option>
+
+                </select>
 
             </section>
 
@@ -272,11 +298,7 @@
 
             <section class="table-container">
 
-
                 <table>
-
-
-                    <!-- ENCABEZADO -->
 
                     <thead>
 
@@ -288,30 +310,23 @@
 
                             <th>DNI</th>
 
-                            <th>Turno</th>
+                            <th>Turno actual</th>
 
-                            <th>Último registro</th>
+                            <th>Esquema</th>
 
-                            <th>Estado</th>
-
-                    
+                            <th>Acciones</th>
 
                         </tr>
 
                     </thead>
 
 
-                    <!-- CUERPO VACÍO -->
-
                     <tbody>
 
                     </tbody>
 
-
                 </table>
 
-
-                <!-- PIE DE TABLA -->
 
                 <div class="table-footer">
 
@@ -321,30 +336,131 @@
                     <div class="pagination">
 
                         <button>
+
                             <i class="fa-solid fa-chevron-left"></i>
+
                         </button>
+
 
                         <button class="current">
+
                             1
+
                         </button>
 
+
                         <button>
+
                             <i class="fa-solid fa-chevron-right"></i>
+
                         </button>
 
                     </div>
 
                 </div>
 
-
             </section>
+
+
+
+            <!-- =========================
+                 PANEL ASIGNAR TURNO
+            ========================== -->
+
+            <aside class="assignment">
+
+
+                <div class="assignment-title">
+
+                    <div class="assignment-icon">
+
+                        <i class="fa-solid fa-calendar-days"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>Asignar Turno</h2>
+
+                        <p>Selecciona un empleado y asigna su turno.</p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- EMPLEADO -->
+
+                <label>Empleado</label>
+
+                <select>
+
+                    <option>Selecciona un empleado...</option>
+
+                </select>
+
+
+
+                <!-- TURNO -->
+
+                <label>Turno</label>
+
+
+                <div class="shift-buttons">
+
+                    <button class="shift active">
+
+                        <i class="fa-solid fa-sun"></i>
+
+                        Mañana
+
+                    </button>
+
+
+                    <button class="shift">
+
+                        <i class="fa-solid fa-moon"></i>
+
+                        Tarde
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- ESQUEMA -->
+
+                <label>Esquema de turnos</label>
+
+                <select>
+
+                    <option>Rotativo (Quincenal)</option>
+
+                    <option>Fijo</option>
+
+                </select>
+
+
+
+                <!-- BOTÓN -->
+
+                <button class="assign-button">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    Asignar turno
+
+                </button>
+
+            </aside>
 
 
         </main>
 
-
     </div>
-
 
 </body>
 
