@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Exportar a Excel - Taller Murua</title>
+    <link rel="stylesheet" href="../static/css/excelstyle.css">
+    
+
+</head>
+
+<body>
+
+<div class="app">
+
+    
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">🔧🚗</div>
+            <h1>TALLER MURUA</h1>
+            <p>SISTEMA DE GESTIÓN DE EMPLEADOS</p>
+        </div>
+
+        <nav class="menu">
+            <a href="#">
+                <span class="menu-icon">⌂</span>
+                Inicio
+            </a>
+
+            <a href="#">
+                <span class="menu-icon">◷</span>
+                Ver Presentismo
+            </a>
+
+            <a href="#">
+                <span class="menu-icon">▣</span>
+                Historial de Asistencias
+            </a>
+
+            <a href="#">
+                <span class="menu-icon">⟲</span>
+                Gestionar Turnos
+            </a>
+
+            <a href="#">
+                <span class="menu-icon">♟</span>
+                Registrar Ausencias
+            </a>
+
+            <a href="#">
+                <span class="menu-icon">✎</span>
+                Modificar Asistencia
+            </a>
+
+            <a href="#" class="active">
+                <span class="menu-icon">▣</span>
+                Exportar a Excel
+            </a>
+        </nav>
+
+        <div class="logout">
+            <span class="menu-icon">⇥</span>
+            Cerrar sesión
+        </div>
+
+    </aside>
+
+  
+
+    <main class="main">
+
+        <header class="header">
+
+            <div class="header-title">
+                <div class="excel-logo">X</div>
+
+                <div>
+                    <h2>Exportar a Excel</h2>
+                    <p>Generación de reporte de horas trabajadas</p>
+                </div>
+            </div>
+
+            <div class="date">
+                 Martes, 14 de Enero de 2026<br>
+                <strong>14:32</strong>
+            </div>
+
+        </header>
+
+        <div class="content-grid">
+
+           
+
+            <section class="left">
+
+                
+
+                <div class="panel">
+
+                    <h3>1. Seleccionar período del reporte</h3>
+
+                    <div class="date-fields">
+
+                        <div class="field">
+                            <label>Fecha inicio</label>
+                            <input class="input" type="text" value="01/01/2026">
+                        </div>
+
+                        <div class="field">
+                            <label>Fecha fin</label>
+                            <input class="input" type="text" value="31/01/2026">
+                        </div>
+
+                       
+
+                    </div>
+
+                    <div class="info">
+                        <span>ⓘ</span>
+                        Se calcularán las horas netas trabajadas en el período seleccionado.
+                    </div>
+
+                </div>
+
+               
+
+                <div class="panel">
+
+                    <h3>2. Vista previa del reporte</h3>
+
+                    <div class="stats">
+
+                        <div class="stat">
+                            <div class="stat-icon blue">♟</div>
+                            <div>
+                                <h4>Empleados</h4>
+                                <strong>16</strong>
+                                <small>en el reporte</small>
+                            </div>
+                        </div>
+
+                        <div class="stat">
+                            <div class="stat-icon green">◷</div>
+                            <div>
+                                <h4>Horas trabajadas</h4>
+                                <strong>1.248:35</strong>
+                                <small>totales</small>
+                            </div>
+                        </div>
+
+                        <div class="stat">
+                            <div class="stat-icon yellow">▣</div>
+                            <div>
+                                <h4>Días trabajados</h4>
+                                <strong>336</strong>
+                                <small>totales</small>
+                            </div>
+                        </div>
+
+                        <div class="stat">
+                            <div class="stat-icon blue">▤</div>
+                            <div>
+                                <h4>Faltas</h4>
+                                <strong>5</strong>
+                                <small>en el período</small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <br>
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Empleado</th>
+                                    <th>DNI</th>
+                                    <th>Días trabajados</th>
+                                    <th>Horas trabajadas</th>
+                                    <th>Horas extras</th>
+                                    <th>Faltas</th>
+                                    <th>Horas netas</th>
+                                </tr>
+                            </thead>
+
+                        </table>
+                    </div>
+
+                    <div class="bottom-info">
+                        ⓘ　La vista previa muestra los cálculos estimados. El archivo Excel incluirá el detalle completo.
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- COLUMNA DERECHA -->
+
+            <section class="right">
+
+                <!-- OPCIONES DE EXPORTACION -->
+
+                <div class="panel">
+
+                    <h3>3. Opciones de exportación</h3>
+
+                    <label class="field-title">Formato de archivo</label>
+
+                    <select>
+                        <option>▣　Excel (.xlsx)</option>
+                        <option>CSV (.csv)</option>
+                    </select>
+
+                    <br><br>
+
+                    <label class="field-title">Incluir en el reporte</label>
+
+                    <div class="checkbox-group">
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            Horas trabajadas normales
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            Horas extras
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            Faltas justificadas e injustificadas
+                        </label>
+
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked>
+                            Salida y regreso intermedio (resumen)
+                        </label>
+
+                    </div>
+
+                    <label class="field-title">Grupo de empleados</label>
+
+                    <select>
+                        <option>Todos los empleados</option>
+                        <option>Empleados de mañana</option>
+                        <option>Empleados de tarde</option>
+                    </select>
+
+                </div>
+
+                <!-- GENERAR REPORTE -->
+
+                <div class="panel">
+
+                    <h3>4. Generar reporte</h3>
+
+                    <button class="generate-btn">
+                        ▣　Generar y descargar Excel
+                    </button>
+
+                    <p class="description">
+                        El archivo se generará con el detalle de horas
+                        netas trabajadas por empleado.
+                    </p>
+
+                </div>
+
+                <!-- INFORMACION -->
+
+                <div class="panel important">
+
+                    <h3>ⓘ　Información importante</h3>
+
+                    <ul>
+                        <li>El reporte se genera con base en los registros de asistencia y correcciones aplicadas.</li>
+                        <li>Las horas extras se calculan según la configuración del sistema.</li>
+                        <li>Este archivo está listo para enviar al contador.</li>
+                    </ul>
+
+                </div>
+
+                <!-- HISTORIAL -->
+
+                <div class="panel">
+
+                    <h3>◷　Historial de exportaciones</h3>
+
+                    <p class="description">
+                        Consulta los reportes generados anteriormente.
+                    </p>
+
+                    <button class="history-btn">
+                        Ver historial　　　　　　　　　›
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
