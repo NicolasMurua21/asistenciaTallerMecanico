@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+
+<head>
+   
+    <title>Registrar Ausencias - Taller Alfredo</title>
+    <link rel="stylesheet" href="../static/css/ausenciastyle.css">
+</head>
+<body>
+
+<div class="app">
+
+    <!-- MENU LATERAL -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">🔧🚗</div>
+            <h1>TALLER ALFREDO</h1>
+            <p>SISTEMA DE GESTIÓN DE EMPLEADOS</p>
+        </div>
+
+        <nav class="menu">
+            <a href="#"><span>⌂</span>Inicio</a>
+            <a href="#"><span>◷</span>Ver Presentismo</a>
+            <a href="#"><span>▣</span>Historial de Asistencias</a>
+            <a href="#"><span>⟲</span>Gestionar Turnos</a>
+            <a href="#" class="active"><span>♟</span>Registrar Ausencias</a>
+            <a href="#"><span>✎</span>Modificar Asistencia</a>
+            <a href="#"><span>▣</span>Exportar a Excel</a>
+        </nav>
+
+        <div class="logout">
+            <span>⇥</span> Cerrar sesión
+        </div>
+
+    </aside>
+
+    
+    <main class="main">
+
+        <header class="header">
+
+            <div class="header-title">
+                <div class="page-icon">♟</div>
+                <div>
+                    <h2>Registrar Ausencias</h2>
+                    <p>Tipificación y gestión de ausencias del personal</p>
+                </div>
+            </div>
+
+            <div class="date">
+                Martes, 14 de Enero de 2026<br>
+                <strong>14:32</strong>
+            </div>
+
+        </header>
+
+        
+        <section class="stats">
+
+            <div class="stat">
+                <div class="stat-icon blue">♟</div>
+                <div>
+                    <h4>Total de empleados</h4>
+                    <strong>16</strong>
+                    <small>activos en el sistema</small>
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon yellow">▣</div>
+                <div>
+                    <h4>Ausencias hoy</h4>
+                    <strong>3</strong>
+                    <small>de 16 empleados</small>
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon green">✓</div>
+                <div>
+                    <h4>Justificadas</h4>
+                    <strong>1</strong>
+                    <small>de 3 ausencias</small>
+                </div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-icon red">✕</div>
+                <div>
+                    <h4>Injustificadas</h4>
+                    <strong>2</strong>
+                    <small>de 3 ausencias</small>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- CUERPO: TABLA + FORMULARIO -->
+        <div class="workspace">
+
+            <!-- COLUMNA IZQUIERDA -->
+            <section class="left-column">
+
+                <div class="filters">
+
+                    <div class="search">
+                        <span>⌕</span>
+                        <input type="text" placeholder="Buscar empleado...">
+                    </div>
+
+                    <select>
+                        <option>Todos los tipos de ausencia</option>
+                        <option>Justificada</option>
+                        <option>Injustificada</option>
+                    </select>
+
+                    <select>
+                        <option>Rango de fechas</option>
+                        <option>Hoy</option>
+                        <option>Esta semana</option>
+                        <option>Este mes</option>
+                    </select>
+
+                </div>
+
+                <div class="table-panel">
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>N°</th>
+                                    <th>Empleado</th>
+                                    <th>Fecha de la ausencia</th>
+                                    <th>Tipo de ausencia</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+                                    <td>1</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Gonzalo Fernández</div></td>
+                                    <td>08/01/2026</td>
+                                    <td><span class="badge justified">Justificada</span></td>
+                                    <td><span class="status">Con certificado</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>2</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Matías Rojas</div></td>
+                                    <td>10/01/2026</td>
+                                    <td><span class="badge unjustified">Injustificada</span></td>
+                                    <td><span class="status">Sin justificar</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>3</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Ivan López</div></td>
+                                    <td>12/01/2026</td>
+                                    <td><span class="badge unjustified">Injustificada</span></td>
+                                    <td><span class="status">Sin justificar</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>4</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Facundo Silva</div></td>
+                                    <td>12/01/2026</td>
+                                    <td><span class="badge justified">Justificada</span></td>
+                                    <td><span class="status">Con certificado</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>5</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Lucas Torres</div></td>
+                                    <td>13/01/2026</td>
+                                    <td><span class="badge unjustified">Injustificada</span></td>
+                                    <td><span class="status">Sin justificar</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>6</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Diego Herrera</div></td>
+                                    <td>13/01/2026</td>
+                                    <td><span class="badge unjustified">Injustificada</span></td>
+                                    <td><span class="status">Sin justificar</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>7</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Santiago Gómez</div></td>
+                                    <td>14/01/2026</td>
+                                    <td><span class="badge justified">Justificada</span></td>
+                                    <td><span class="status">Con certificado</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>8</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Tomás Castillo</div></td>
+                                    <td>14/01/2026</td>
+                                    <td><span class="badge unjustified">Injustificada</span></td>
+                                    <td><span class="status">Sin justificar</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>9</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Bruno Díaz</div></td>
+                                    <td>15/01/2026</td>
+                                    <td><span class="badge justified">Justificada</span></td>
+                                    <td><span class="status">Con certificado</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>10</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Nicolás Ramírez</div></td>
+                                    <td>16/01/2026</td>
+                                    <td><span class="badge unjustified">Injustificada</span></td>
+                                    <td><span class="status">Sin justificar</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>11</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Axel Vargas</div></td>
+                                    <td>16/01/2026</td>
+                                    <td><span class="badge justified">Justificada</span></td>
+                                    <td><span class="status">Con certificado</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>12</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Leonardo Castro</div></td>
+                                    <td>17/01/2026</td>
+                                    <td><span class="badge unjustified">Injustificada</span></td>
+                                    <td><span class="status">Sin justificar</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>13</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Valentín Ortega</div></td>
+                                    <td>17/01/2026</td>
+                                    <td><span class="badge justified">Justificada</span></td>
+                                    <td><span class="status">Con certificado</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>14</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Lautaro Fernández</div></td>
+                                    <td>18/01/2026</td>
+                                    <td><span class="badge unjustified">Injustificada</span></td>
+                                    <td><span class="status">Sin justificar</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>15</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Joaquín Molina</div></td>
+                                    <td>18/01/2026</td>
+                                    <td><span class="badge justified">Justificada</span></td>
+                                    <td><span class="status">Con certificado</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                                <tr>
+                                    <td>16</td>
+                                    <td><div class="employee"><span class="avatar">♟</span>Mateo Sánchez</div></td>
+                                    <td>19/01/2026</td>
+                                    <td><span class="badge unjustified">Injustificada</span></td>
+                                    <td><span class="status">Sin justificar</span></td>
+                                    <td><button class="detail">◉ Ver detalle</button></td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    <div class="pagination">
+                        <span>Mostrando 16 ausencias</span>
+                        <div>
+                            <button>‹</button>
+                            <button class="selected">1</button>
+                            <button>›</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+
+           
+            <aside class="right-column">
+
+                <div class="form-panel">
+
+                    <div class="form-title">
+                        <div class="form-icon">▣</div>
+                        <div>
+                            <h3>Registrar Ausencia</h3>
+                            <p>Complete los datos para registrar una ausencia.</p>
+                        </div>
+                    </div>
+
+                    <form>
+
+                        <label>Empleado</label>
+                        <select>
+                            <option>Seleccionar un empleado...</option>
+                            <option>Gonzalo Fernández</option>
+                            <option>Matías Rojas</option>
+                            <option>Ivan López</option>
+                            <option>Facundo Silva</option>
+                        </select>
+
+                        <label>Fecha de la ausencia</label>
+                        <div class="date-input">
+                            <span>▣</span>
+                            <input type="text" value="14/01/2026">
+                        </div>
+
+                        <label>Tipo de ausencia</label>
+
+                        <div class="absence-types">
+
+                            <label class="type-option justified-option">
+                                <input type="radio" name="absence" checked>
+                                <span>✓</span>
+                                <div>
+                                    <strong>Justificada</strong>
+                                    <small>(con certificado)</small>
+                                </div>
+                            </label>
+
+                            <label class="type-option unjustified-option">
+                                <input type="radio" name="absence">
+                                <span>♟</span>
+                                <div>
+                                    <strong>Injustificada</strong>
+                                    <small>(sin justificar)</small>
+                                </div>
+                            </label>
+
+                        </div>
+
+                        <label>Adjuntar certificado (opcional)</label>
+
+                        <div class="upload">
+                            <div class="upload-icon">↥</div>
+                            <strong>Hacé clic para subir un archivo</strong>
+                            <small>PDF, JPG o PNG (máx. 5MB)</small>
+                            <input type="file" accept=".pdf,.jpg,.jpeg,.png">
+                        </div>
+
+                        <label>Observaciones (opcional)</label>
+
+                        <textarea placeholder="Escriba una observación..."></textarea>
+
+                        <button type="submit" class="register-btn">
+                            ▣ Registrar ausencia
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <div class="history-panel">
+
+                    <div class="history-title">
+                        <span>▣</span>
+                        <div>
+                            <h3>Historial de ausencias</h3>
+                            <p>Consultar todas las ausencias registradas.</p>
+                        </div>
+                    </div>
+
+                    <button class="history-btn">
+                        ▣ Ver historial completo <span>›</span>
+                    </button>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>
