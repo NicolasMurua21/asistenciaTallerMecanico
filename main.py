@@ -150,3 +150,45 @@ def aplicar_correccion(datos: ModificacionSchema):
       "exito": True,
       "mensaje": "Registro de asistencia corregido correctamente.",
   }
+  
+  # --- CLASE ReporteAsistencia ---
+
+
+class ReporteFiltroSchema(BaseModel):
+  fechaDesde: str
+  fechaHasta: str
+  tipo: Optional[str] = "General"
+
+
+# 1. Generar / Consultar Reporte (ReporteAsistencia.generar() / consultar())
+@app.post("/api/reportes/generar")
+def generar_reporte_asistencia(filtro: ReporteFiltroSchema):
+  # Buscar asistencias dentro del rango de fechas
+  reporte_datos = [
+      asistencia
+      for asistencia in asistencias_db
+      if filtro.fechaDesde <= asistencia["fecha"] <= filtro.fechaHasta
+  ]
+
+  return {
+      "idReporte": 101,
+      "fechaGeneracion": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+      "tipo": filtro.tipo,
+      "totalRegistros": len(reporte_datos),
+      "resultados": reporte_datos,
+  }
+
+
+# 2. Exportar a Excel (ReporteAsistencia.exportarExcel())
+@app.get("/api/reportes/exportar-excel")
+def exportar_reporte_excel(fechaDesde: str, fechaHasta: str):
+  return {
+      "exito": True,
+      "mensaje": (
+          f"Reporte desde {fechaDesde} hasta {fechaHasta} exportado a Excel"
+          " exitosamente."
+      ),
+      "nombre_archivo": (
+          f"Reporte_Asistencia_{fechaDesde}_a_{fechaHasta}.xlsx"
+      ),
+  }
