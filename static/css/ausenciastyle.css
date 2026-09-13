@@ -17,7 +17,7 @@ body {
     min-height: 100vh;
 }
 
-/* MENU LATERAL */
+
 
 .sidebar {
     width: 304px;
@@ -92,7 +92,7 @@ body {
     margin-right: 18px;
 }
 
-/* CONTENIDO */
+
 
 .main {
     flex: 1;
@@ -211,7 +211,7 @@ body {
     font-size: 14px;
 }
 
-/* DISTRIBUCION */
+
 
 .workspace {
     display: grid;
