@@ -77,8 +77,8 @@ def inicializar_base_datos():
     """)
 
     conexion.commit()
-    conexion.close()
     print("Base de datos y tablas creadas exitosamente.")
+    return conexion
 
 
 import sqlite3
