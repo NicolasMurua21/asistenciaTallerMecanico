@@ -1,5 +1,5 @@
 import sqlite3
-import ReporteAsistencia
+import RegistroAsistencia
 
 
 class Empleado:
@@ -50,7 +50,7 @@ class Empleado:
         resultado = cursor.fetchone()
 
         if resultado:
-            return ReporteAsistencia.consultar(resultado[0])
+            return RegistroAsistencia.calcularHorasTrabajadas(resultado[0])
         else:
             return None
         
