@@ -1,5 +1,5 @@
 import sqlite3
-import ReporteAsistencia
+import RegistroAsistencia
 
 
 class Empleado:
@@ -50,7 +50,7 @@ class Empleado:
         resultado = cursor.fetchone()
 
         if resultado:
-            return ReporteAsistencia.consultar(resultado[0])
+            return RegistroAsistencia.calcularHorasTrabajadas(resultado[0])
         else:
             return None
         
@@ -69,5 +69,25 @@ class Empleado:
       except:
           print("YA EXISTE")
           return None
+      
 
+    def obtenerID(DB, dni = None, pin = None):
+        cursor = DB.cursor()
+
+        if pin is not None:
+            cursor.execute(
+                "SELECT empleado_id FROM empleado WHERE pin = ?", (pin,)
+            )
+        elif dni is not None:
+            cursor.execute(
+                "SELECT empleado_id FROM empleado WHERE documento = ?", (dni,)
+            )
+        else:
+            return None 
+
+        resultado = cursor.fetchone()
+        if resultado:
+            return resultado[0]
+        else:
+            return None
 
