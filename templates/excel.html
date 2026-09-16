@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 <head>
-    <title>Exportar a Excel - Taller Alfredo</title>
+    <title>Exportar a Excel - Taller Murua</title>
     <link rel="stylesheet" href="../static/css/excelstyle.css">
     
 
@@ -17,52 +17,28 @@
     <aside class="sidebar">
 
         <div class="logo">
-            <div class="logo-icon">🔧🚗</div>
-            <h1>TALLER ALFREDO</h1>
+            <div class="logo-icon"></div>
+            <h1>TALLER MURUA</h1>
             <p>SISTEMA DE GESTIÓN DE EMPLEADOS</p>
         </div>
 
         <nav class="menu">
-            <a href="#">
-                <span class="menu-icon">⌂</span>
-                Inicio
-            </a>
 
-            <a href="#">
-                <span class="menu-icon">◷</span>
-                Ver Presentismo
-            </a>
+    <a href="index.html"><span>⌂</span>Inicio</a>
+    <a href="presentismo.html"><span>◷</span>Ver Presentismo</a>
+    <a href="modificarasistencia.html"><span>▣</span>Historial de Asistencias</a>
+    <a href="GestionDeTurnos.html"><span>⟲</span>Gestionar Turnos</a>
+    <a href="ausencias.html" class="active"><span>♟</span>Registrar Ausencias</a>
+    <a href="modificarasistencia.html"><span>✎</span>Modificar Asistencia</a>
 
-            <a href="#">
-                <span class="menu-icon">▣</span>
-                Historial de Asistencias
-            </a>
 
-            <a href="#">
-                <span class="menu-icon">⟲</span>
-                Gestionar Turnos
-            </a>
+    <a href="excel.html" id="btn-exportar"><span>▣</span>Exportar a Excel</a>
+</nav>
 
-            <a href="#">
-                <span class="menu-icon">♟</span>
-                Registrar Ausencias
-            </a>
-
-            <a href="#">
-                <span class="menu-icon">✎</span>
-                Modificar Asistencia
-            </a>
-
-            <a href="#" class="active">
-                <span class="menu-icon">▣</span>
-                Exportar a Excel
-            </a>
-        </nav>
-
-        <div class="logout">
-            <span class="menu-icon">⇥</span>
-            Cerrar sesión
-        </div>
+        <a href="index.html" class="cerrar-sesion" style="text-decoration: none;">
+    <span>⇥</span>
+    Cerrar sesión
+</a> 
 
     </aside>
 
@@ -79,11 +55,6 @@
                     <h2>Exportar a Excel</h2>
                     <p>Generación de reporte de horas trabajadas</p>
                 </div>
-            </div>
-
-            <div class="date">
-                 Martes, 14 de Enero de 2026<br>
-                <strong>14:32</strong>
             </div>
 
         </header>
@@ -135,7 +106,7 @@
                             <div class="stat-icon blue">♟</div>
                             <div>
                                 <h4>Empleados</h4>
-                                <strong>16</strong>
+                                <strong id="empleados">0</strong>
                                 <small>en el reporte</small>
                             </div>
                         </div>
@@ -144,8 +115,8 @@
                             <div class="stat-icon green">◷</div>
                             <div>
                                 <h4>Horas trabajadas</h4>
-                                <strong>1.248:35</strong>
-                                <small>totales</small>
+                                <strong id="horas-trabajadas"></strong>
+                                <small id="totales">totales</small>
                             </div>
                         </div>
 
@@ -153,8 +124,8 @@
                             <div class="stat-icon yellow">▣</div>
                             <div>
                                 <h4>Días trabajados</h4>
-                                <strong>336</strong>
-                                <small>totales</small>
+                                <strong id="dias-trabajados">0</strong>
+                                <small id="totales-dias">totales</small>
                             </div>
                         </div>
 
@@ -162,7 +133,7 @@
                             <div class="stat-icon blue">▤</div>
                             <div>
                                 <h4>Faltas</h4>
-                                <strong>5</strong>
+                                <strong id="faltas">0</strong>
                                 <small>en el período</small>
                             </div>
                         </div>
@@ -281,23 +252,6 @@
                     </ul>
 
                 </div>
-
-                
-
-                <div class="panel">
-
-                    <h3>◷　Historial de exportaciones</h3>
-
-                    <p class="description">
-                        Consulta los reportes generados anteriormente.
-                    </p>
-
-                    <button class="history-btn">
-                        Ver historial　　　　　　　
-                    </button>
-
-                </div>
-
             </section>
 
         </div>

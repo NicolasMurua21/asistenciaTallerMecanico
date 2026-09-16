@@ -13,26 +13,29 @@
     
     <aside class="sidebar">
 
-       
-            
+        <div class="logo">
+            <div class="logo-icon"></div>
             <h1>TALLER MURUA</h1>
             <p>SISTEMA DE GESTIÓN DE EMPLEADOS</p>
         
 
         <nav class="menu">
-            <a href="#"><span>⌂</span>Inicio</a>
-            <a href="#"><span>◷</span>Ver Presentismo</a>
-            <a href="#"><span>▣</span>Historial de Asistencias</a>
-            <a href="#"><span>⟲</span>Gestionar Turnos</a>
-            <a href="#" class="active"><span>♟</span>Registrar Ausencias</a>
-            <a href="#"><span>✎</span>Modificar Asistencia</a>
-            <a href="#"><span>▣</span>Exportar a Excel</a>
-        </nav>
 
-        <button type="button" class="cerrar-sesion">
+    <a href="index.html"><span>⌂</span>Inicio</a>
+    <a href="presentismo.html"><span>◷</span>Ver Presentismo</a>
+    <a href="modificarasistencia.html"><span>▣</span>Historial de Asistencias</a>
+    <a href="GestionDeTurnos.html"><span>⟲</span>Gestionar Turnos</a>
+    <a href="ausencias.html" class="active"><span>♟</span>Registrar Ausencias</a>
+    <a href="modificarasistencia.html"><span>✎</span>Modificar Asistencia</a>
+
+
+    <a href="excel.html" id="btn-exportar"><span>▣</span>Exportar a Excel</a>
+</nav>
+
+        <a href="index.html" class="cerrar-sesion" style="text-decoration: none;">
     <span>⇥</span>
     Cerrar sesión
-</button>
+</a> 
 
     </aside>
 
@@ -58,8 +61,8 @@
                 <div class="stat-icon blue">♟</div>
                 <div>
                     <h4>Total de empleados</h4>
-                    <h5>0</h5>
-                    <small>activos en el sistema</small>
+                    <strong id="empleados-total">0</strong>
+                    <small id="empleados-activos">activos en el sistema</small>
                 </div>
             </div>
 
@@ -67,8 +70,8 @@
                 <div class="stat-icon yellow">▣</div>
                 <div>
                     <h4>Ausencias hoy</h4>
-                    <h5>0</h5>
-                    <small id="total-empleados">de 0 empleados</small>
+                    <strong id="ausencias-hoy">0</strong>
+                    <small id="empleados-hoy">de 0 empleados</small>
                 </div>
             </div>
 
@@ -76,8 +79,8 @@
                 <div class="stat-icon green">✓</div>
                 <div>
                     <h4>Justificadas</h4>
-                    <h5>0</h5>
-                    <small id="total-ausencias-justificadas">de 0 ausencias</small>
+                    <strong id="justificadas">0</strong>
+                    <small id="ausencias-justificadas">de 0 ausencias</small>
                 </div>
             </div>
 
@@ -85,8 +88,8 @@
                 <div class="stat-icon red">✕</div>
                 <div>
                     <h4>Injustificadas</h4>
-                    <h5>0</h5>
-                    <small id="total-ausencias-injustificadas">de 0 ausencias</small>
+                    <strong id="injustificadas">0</strong>
+                    <small id="total-ausencias">de 0 ausencias</small>
                 </div>
             </div>
 
@@ -169,6 +172,7 @@
                         <label>Empleado</label>
                         <select>
                             <option>Seleccionar un empleado...</option>
+                          
                         </select>
 
                         <label>Fecha de la ausencia</label>
