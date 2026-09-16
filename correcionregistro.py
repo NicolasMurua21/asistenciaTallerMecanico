@@ -13,7 +13,6 @@ class CorreccionRegistro:
     def aplicar(cls, DB, empleado_id, fecha, hora_ingreso, salida_intermedia, reingreso, hora_egreso, motivo):
         cursor = DB.cursor()
         
-        # 1. Buscar si existe la asistencia
         cursor.execute(
             "SELECT asistencia_id FROM asistencia WHERE empleado_id = ? AND fecha = ?",
             (empleado_id, fecha)
@@ -34,7 +33,6 @@ class CorreccionRegistro:
             """, (empleado_id, fecha, hora_ingreso, salida_intermedia, reingreso, hora_egreso))
             asistencia_id = cursor.lastrowid
 
-        # 2. Registrar auditoria
         fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         cursor.execute("""
             INSERT INTO correccion_registro (fecha_hora, motivo, empleado_id, asistencia_id)
@@ -45,3 +43,22 @@ class CorreccionRegistro:
         DB.commit()
 
         return cls(id_correccion, fecha_actual, motivo, empleado_id, asistencia_id)
+
+    @classmethod
+    def deshacer(cls, DB, id_correccion):
+        cursor = DB.cursor()
+        
+        cursor.execute(
+            "SELECT asistencia_id FROM correccion_registro WHERE id_correccion = ?",
+            (id_correccion,)
+        )
+        resultado = cursor.fetchone()
+        
+        if resultado and resultado[0]:
+            asistencia_id = resultado[0]
+            cursor.execute("DELETE FROM asistencia WHERE asistencia_id = ?", (asistencia_id,))
+            
+        cursor.execute("DELETE FROM correccion_registro WHERE id_correccion = ?", (id_correccion,))
+        
+        DB.commit()
+        return True
