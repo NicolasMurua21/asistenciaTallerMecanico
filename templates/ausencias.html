@@ -3,7 +3,7 @@
 
 <head>
    
-    <title>Registrar Ausencias - Taller Alfredo</title>
+    <title>Registrar Ausencias - Taller Murua</title>
     <link rel="stylesheet" href="../static/css/ausenciastyle.css">
 </head>
 <body>
@@ -13,11 +13,11 @@
     
     <aside class="sidebar">
 
-        <div class="logo">
-            <div class="logo-icon">🔧🚗</div>
-            <h1>TALLER ALFREDO</h1>
+       
+            
+            <h1>TALLER MURUA</h1>
             <p>SISTEMA DE GESTIÓN DE EMPLEADOS</p>
-        </div>
+        
 
         <nav class="menu">
             <a href="#"><span>⌂</span>Inicio</a>
@@ -29,9 +29,10 @@
             <a href="#"><span>▣</span>Exportar a Excel</a>
         </nav>
 
-        <div class="logout">
-            <span>⇥</span> Cerrar sesión
-        </div>
+        <button type="button" class="cerrar-sesion">
+    <span>⇥</span>
+    Cerrar sesión
+</button>
 
     </aside>
 
@@ -48,11 +49,6 @@
                 </div>
             </div>
 
-            <div class="date">
-                Martes, 14 de Enero de 2026<br>
-                <strong>14:32</strong>
-            </div>
-
         </header>
 
         
@@ -62,7 +58,7 @@
                 <div class="stat-icon blue">♟</div>
                 <div>
                     <h4>Total de empleados</h4>
-                    <strong>16</strong>
+                    <h5>0</h5>
                     <small>activos en el sistema</small>
                 </div>
             </div>
@@ -71,8 +67,8 @@
                 <div class="stat-icon yellow">▣</div>
                 <div>
                     <h4>Ausencias hoy</h4>
-                    <strong>3</strong>
-                    <small>de 16 empleados</small>
+                    <h5>0</h5>
+                    <small id="total-empleados">de 0 empleados</small>
                 </div>
             </div>
 
@@ -80,8 +76,8 @@
                 <div class="stat-icon green">✓</div>
                 <div>
                     <h4>Justificadas</h4>
-                    <strong>1</strong>
-                    <small>de 3 ausencias</small>
+                    <h5>0</h5>
+                    <small id="total-ausencias-justificadas">de 0 ausencias</small>
                 </div>
             </div>
 
@@ -89,8 +85,8 @@
                 <div class="stat-icon red">✕</div>
                 <div>
                     <h4>Injustificadas</h4>
-                    <strong>2</strong>
-                    <small>de 3 ausencias</small>
+                    <h5>0</h5>
+                    <small id="total-ausencias-injustificadas">de 0 ausencias</small>
                 </div>
             </div>
 
@@ -143,7 +139,7 @@
                                 
 
                     <div class="pagination">
-                        <span>Mostrando 16 ausencias</span>
+                        <span id="pagination-info">Mostrando 0 ausencias</span>
                         <div>
                             <button>‹</button>
                             <button class="selected">1</button>
@@ -173,10 +169,6 @@
                         <label>Empleado</label>
                         <select>
                             <option>Seleccionar un empleado...</option>
-                            <option>Gonzalo Fernández</option>
-                            <option>Matías Rojas</option>
-                            <option>Ivan López</option>
-                            <option>Facundo Silva</option>
                         </select>
 
                         <label>Fecha de la ausencia</label>
