@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<head>
+    
+
+    <title>Añadir empleado - Taller Murua</title>
+
+    <link rel="stylesheet" href="../static/css/anadirempleado.css">
+</head>
+
+<body>
+
+    
+    <aside class="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon"></div>
+            <h1>TALLER MURUA</h1>
+            <p>SISTEMA DE GESTIÓN DE EMPLEADOS</p>
+        </div>
+
+        <nav class="menu">
+
+            <a href="#" class="menu-item">
+                <span>⌂</span>
+                Inicio
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>◷</span>
+                Ver Presentismo
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>▣</span>
+                Historial de Asistencias
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>↻</span>
+                Gestionar Turnos
+            </a>
+
+            
+            <a href="#" class="menu-item activo">
+                <span>♟</span>
+                Empleados
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>✎</span>
+                Modificar Asistencia
+            </a>
+
+            <a href="#" class="menu-item">
+                <span>▧</span>
+                Exportar a Excel
+            </a>
+
+        </nav>
+
+        <button type="button" class="cerrar-sesion">
+    <span>⇥</span>
+    Cerrar sesión
+</button>
+
+    </aside>
+
+
+    
+    <main class="contenido">
+
+       
+        <header class="header">
+
+            <div class="titulo-header">
+
+        
+                <div>
+                    <h2>Gestión de Empleados</h2>
+                    <p>Alta de empleados del taller.</p>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        
+        <section class="panel-empleado">
+
+            <div class="titulo-panel">
+
+                <span class="icono-persona">♟+</span>
+
+                <h3>Añadir empleado</h3>
+
+            </div>
+
+            <p class="descripcion">
+                Completá los datos del nuevo empleado y guardalo en el sistema.
+            </p>
+
+
+            <form class="form-empleado">
+
+                
+                <div class="campo">
+
+                    <label for="dni">DNI</label>
+
+                    <div class="input-container">
+
+                        <span class="input-icon">▣</span>
+
+                        <input
+                            type="text"
+                            id="dni"
+                            name="dni"
+                            placeholder="Ej: 12345678"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                
+                <div class="campo">
+
+                    <label for="nombre">Nombre</label>
+
+                    <div class="input-container">
+
+                        <span class="input-icon">♟</span>
+
+                        <input
+                            type="text"
+                            id="nombre"
+                            name="nombre"
+                            placeholder="Ej: Juan"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                
+                <div class="campo">
+
+                    <label for="apellido">Apellido</label>
+
+                    <div class="input-container">
+
+                        <span class="input-icon">♟</span>
+
+                        <input
+                            type="text"
+                            id="apellido"
+                            name="apellido"
+                            placeholder="Ej: Pérez"
+                        >
+
+                    </div>
+
+                </div>
+
+                
+                <button type="submit" class="btn-agregar">
+                    <span>+</span>
+                    Añadir empleado
+                </button>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
