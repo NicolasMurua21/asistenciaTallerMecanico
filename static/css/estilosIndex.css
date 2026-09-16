@@ -90,7 +90,9 @@ body {
     margin-bottom: 30px;
 }
 
-
+h2, h3, p, span{
+    color: #fdf9f9;
+}
 
 
 button {
