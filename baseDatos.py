@@ -1,5 +1,6 @@
 ##ACA SE VA A INICIAR LA BASE DE DATOS, Y SU CREACION
 import sqlite3
+from pathlib import Path
 
 def inicializar_base_datos():
     conexion = sqlite3.connect("taller_mecanico.db")
@@ -59,6 +60,7 @@ def inicializar_base_datos():
             hora_entrada TEXT NOT NULL,
             hora_salida TEXT,
             estado_asistencia INTEGER NOT NULL,
+            hora_fuera INTEGER,
             FOREIGN KEY (empleado_id) REFERENCES empleado(empleado_id),
             FOREIGN KEY (estado_asistencia) REFERENCES estado_asistencia(estado_id)
         );
@@ -81,8 +83,6 @@ def inicializar_base_datos():
     return conexion
 
 
-import sqlite3
-from pathlib import Path
 
 
 def probar_base_datos():
