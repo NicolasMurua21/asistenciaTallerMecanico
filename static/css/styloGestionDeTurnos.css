@@ -1,0 +1,615 @@
+/* ========================================
+   CONFIGURACIÓN GENERAL
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #05162A;
+    color: white;
+}
+
+
+/* ========================================
+   ESTRUCTURA GENERAL
+======================================== */
+
+.layout {
+    display: flex;
+    height: 100vh;
+}
+
+
+/* ========================================
+   BARRA LATERAL
+======================================== */
+
+.sidebar {
+    width: 300px;
+    background-color: #081D34;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ========================================
+   LOGO
+======================================== */
+
+.brand {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.brand img {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+}
+
+.brand h2 {
+    color: #ffc400;
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.brand p {
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+
+/* ========================================
+   MENÚ
+======================================== */
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 15px;
+
+    color: white;
+    text-decoration: none;
+
+    border-radius: 10px;
+
+    font-size: 17px;
+}
+
+.menu-item i {
+    font-size: 23px;
+}
+
+.menu-item:hover {
+    background-color: #0b55d8;
+}
+
+
+/* BOTÓN ACTIVO */
+
+.menu-item.active {
+    background-color: #ffc400;
+    color: #073b9c;
+}
+
+
+/* ========================================
+   CERRAR SESIÓN
+======================================== */
+
+.logout {
+    margin-top: auto;
+}
+
+
+/* ========================================
+   CONTENIDO PRINCIPAL
+======================================== */
+
+.main-content {
+    flex: 1;
+
+    padding: 20px;
+
+    overflow-y: auto;
+
+    position: relative;
+}
+
+
+/* ========================================
+   ENCABEZADO
+======================================== */
+
+.header {
+    border-bottom: 1px solid #2872e8;
+
+    padding-bottom: 20px;
+
+    margin-bottom: 25px;
+}
+
+.header-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.title-icon {
+    width: 52px;
+    height: 52px;
+
+    background-color: #ffc400;
+
+    color: #073b9c;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 25px;
+}
+
+.header h1 {
+    font-size: 32px;
+}
+
+.header p {
+    font-size: 16px;
+
+    margin-top: 5px;
+}
+
+
+/* ========================================
+   TARJETAS SUPERIORES
+======================================== */
+
+.cards {
+    display: flex;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.card {
+    flex: 1;
+
+    min-height: 130px;
+
+    border: 1px solid #1680ff;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 20px;
+
+    background-color: #063e9f;
+}
+
+.card-icon {
+    width: 65px;
+    height: 65px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 28px;
+}
+
+.blue {
+    background-color: #1680ff;
+}
+
+.yellow {
+    background-color: #ffc400;
+
+    color: #073b9c;
+}
+
+.card h3 {
+    font-size: 16px;
+}
+
+.card strong {
+    display: block;
+
+    font-size: 30px;
+
+    margin-top: 5px;
+}
+
+
+/* ========================================
+   FILTROS
+======================================== */
+
+.filters {
+    display: flex;
+
+    gap: 20px;
+
+    margin-bottom: 15px;
+
+    /*
+    Reservamos espacio para
+    el panel de Asignar Turno
+    */
+    width: calc(100% - 315px);
+}
+
+
+/* BUSCADOR */
+
+.search {
+    flex: 2;
+
+    height: 50px;
+
+    border: 1px solid #1680ff;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 0 20px;
+
+    background-color: #063e9f;
+}
+
+.search i {
+    font-size: 20px;
+
+    margin-right: 15px;
+}
+
+.search input {
+    width: 100%;
+
+    background: transparent;
+
+    border: none;
+
+    outline: none;
+
+    color: white;
+
+    font-size: 15px;
+}
+
+.search input::placeholder {
+    color: white;
+}
+
+
+/* SELECTS */
+
+.filters select {
+    flex: 1;
+}
+
+select {
+    height: 50px;
+
+    background-color: #063e9f;
+
+    border: 1px solid #1680ff;
+
+    border-radius: 10px;
+
+    color: white;
+
+    padding: 0 15px;
+
+    font-size: 15px;
+}
+
+
+/* ========================================
+   TABLA
+======================================== */
+
+.table-container {
+    /*
+    Reservamos espacio para
+    el panel derecho
+    */
+    width: calc(100% - 315px);
+
+    border: 1px solid #1680ff;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    background-color: #063e9f;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #0754c9;
+}
+
+th {
+    text-align: left;
+
+    padding: 15px 20px;
+
+    font-size: 15px;
+}
+
+tbody tr {
+    height: 38px;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #0848b0;
+}
+
+
+/* ========================================
+   PIE DE TABLA
+======================================== */
+
+.table-footer {
+    border-top: 1px solid #1680ff;
+
+    padding: 15px 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+}
+
+
+/* ========================================
+   PAGINACIÓN
+======================================== */
+
+.pagination {
+    display: flex;
+
+    gap: 10px;
+}
+
+.pagination button {
+    width: 40px;
+    height: 40px;
+
+    border: 1px solid #1680ff;
+
+    background-color: transparent;
+
+    color: white;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.pagination .current {
+    background-color: #ffc400;
+
+    color: #073b9c;
+
+    border: none;
+}
+
+
+/* ========================================
+   PANEL ASIGNAR TURNO
+======================================== */
+
+.assignment {
+    position: absolute;
+
+    right: 20px;
+
+    top: 275px;
+
+    width: 295px;
+
+    background-color: #063e9f;
+
+    border: 1px solid #1680ff;
+
+    border-radius: 12px;
+
+    padding: 15px;
+}
+
+
+/* ========================================
+   TÍTULO DEL PANEL
+======================================== */
+
+.assignment-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.assignment-icon {
+    width: 50px;
+    height: 50px;
+
+    background-color: #ffc400;
+
+    color: #073b9c;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 23px;
+}
+
+.assignment h2 {
+    font-size: 20px;
+}
+
+.assignment-title p {
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+
+/* ========================================
+   CAMPOS DEL PANEL
+======================================== */
+
+.assignment label {
+    display: block;
+
+    margin-top: 15px;
+
+    margin-bottom: 7px;
+
+    font-size: 14px;
+}
+
+.assignment select {
+    width: 100%;
+}
+
+
+/* ========================================
+   BOTONES DE TURNO
+======================================== */
+
+.shift-buttons {
+    display: flex;
+
+    gap: 10px;
+}
+
+.shift {
+    flex: 1;
+
+    height: 50px;
+
+    border: 1px solid #1680ff;
+
+    background-color: #0754c9;
+
+    color: white;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+.shift i {
+    margin-right: 7px;
+}
+
+.shift.active {
+    background-color: #ffc400;
+
+    color: #073b9c;
+}
+
+
+/* ========================================
+   BOTÓN ASIGNAR TURNO
+======================================== */
+
+.assign-button {
+    width: 100%;
+
+    height: 50px;
+
+    margin-top: 25px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background-color: #ffc400;
+
+    color: #073b9c;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+/* ========================================
+   EFECTOS
+======================================== */
+
+.assign-button:hover {
+    background-color: #ffd633;
+}
+
+.shift:hover {
+    background-color: #1267df;
+}
+
+.shift.active:hover {
+    background-color: #ffd633;
+}
+
+.pagination button:hover {
+    background-color: #0b55d8;
+}
+logo-img {
+    width: 300px; /* Ajusta el tamaño según sea necesario */
+    height: auto;
+    margin-bottom: 10px;
+}

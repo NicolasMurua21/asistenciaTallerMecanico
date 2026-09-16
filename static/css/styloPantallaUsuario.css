@@ -1,0 +1,231 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #05162a;
+    color: #ffffff;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.layout {
+    display: flex;
+    height: 100vh;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 240px;
+    background-color: #081d34;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.brand .logo {
+    font-size: 28px;
+    color: #ffb703;
+    margin-bottom: 5px;
+}
+
+.brand h2 {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.brand span {
+    font-size: 9px;
+    color: #a0b3d6;
+    display: block;
+    margin-top: 2px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 20px;
+    transition: background 0.2s;
+}
+
+.menu-item.active {
+    background-color: #ffb703;
+    color: #000000;
+    font-weight: 600;
+}
+
+.menu-item:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.logout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 13px;
+    padding: 10px;
+}
+
+/* --- CONTENIDO PRINCIPAL --- */
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    padding: 30px 35px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.user-icon {
+    background-color: #ffb703;
+    color: #000;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+
+.card-header h1 {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #d0dbe8;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* --- FORMULARIO Y BOTONES --- */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 16px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 12px 12px 42px;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    outline: none;
+}
+
+.buttons-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn-green {
+    background-color: #1e874b;
+    color: #ffffff;
+}
+
+.btn-red {
+    background-color: #d9383a;
+    color: #ffffff;
+}
+
+.btn-white {
+    background-color: #ffffff;
+    color: #1a1a1a;
+}
+
+/* --- CUADRO DE INFORMACIÓN --- */
+.info-box {
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: #e0e8f5;
+}
+
+.info-box i {
+    font-size: 16px;
+}
+.logo-img {
+    width: 190px; /* Ajusta el tamaño según sea necesario */
+    height: auto;
+    margin-bottom: 10px;
+}
+#brand-title {
+    color: #ffb703;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
