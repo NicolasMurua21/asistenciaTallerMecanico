@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller Murua - Sistema de Gestión de Empleados</title>
+    <!-- Vinculación del CSS -->
+    <link rel="stylesheet" href="../static/css/styloPantallaUsuario.css">
+    <!-- Iconos Font Awesome -->
+    
+</head>
+<body>
+<div class="brand">
+    <!-- Aquí colocas la imagen -->
+    
+    
+</div>
+    <div class="layout">
+        <!-- Barra Lateral / Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo">
+                    <img src="../templates/imagenes/LOGO PRINCIPAL (SOLO AUTO).jpeg" alt="Logo Taller Murua" class="logo-img">
+                    <i class="fa-solid fa-car"></i>
+                </div>
+                <h2 id="brand-title">TALLER MURUA</h2>
+                <span>SISTEMA DE GESTIÓN DE EMPLEADOS</span>
+            </div>
+
+            <nav class="menu">
+                <a href="#" class="menu-item active">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Inicio</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fa-regular fa-clock"id="presentismo"></i>
+                    <span>Mi Presentismo</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fa-regular fa-calendar-days" id="historial"></i>
+                    <span>Historial</span>
+                </a>
+            </nav>
+            <a href="#" class="logout">
+                <i class="fa-solid fa-right-from-bracket"id="cerrarSesion"></i>
+                <span>Cerrar sesión</span>
+            </a>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <div class="card">
+                <div class="card-header">
+                    <div class="user-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <h1>Registro Rápido (Empleado)</h1>
+                </div>
+
+                <p class="subtitle" id="imputdni">Ingrese su DNI o PIN para fichar.</p>
+
+                <form class="form-container" onsubmit="event.preventDefault();">
+                    <div class="input-group">
+                        <i class="fa-regular fa-user input-icon"></i>
+                        <input type="text" placeholder="DNI o PIN" required>
+                    </div>
+
+                    <div class="buttons-grid">
+                        <button type="button" class="btn btn-green"id="btnRegistrarIngreso">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                            Registrar Ingreso
+                        </button>
+                        <button type="button" class="btn btn-red"id="btnRegistrarEgreso">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            Registrar Egreso
+                        </button>
+                        <button type="button" class="btn btn-white"id="btnSalidaIntermedia">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            Salida Intermedia
+                        </button>
+                        <button type="button" class="btn btn-white"id="btnReingreso">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                            Reingreso
+                        </button>
+                    </div>
+
+                    <div class="info-box">
+                        <i class="fa-solid fa-circle-info"></i>
+                        <span>Recuerde fichar al iniciar y finalizar su jornada.</span>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
