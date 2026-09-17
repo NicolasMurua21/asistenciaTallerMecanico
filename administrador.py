@@ -1,19 +1,19 @@
-import CorreccionRegistro
+from correcionregistro import CorreccionRegistro
 import Falta
 import ReporteAsistencia
 from empleado import Empleado
 
 
 class Administrador:
-    def corregirRegistro(DB, id_registro, motivo : str, valorNuevo : str, campoModificar):
+    def corregirRegistro(DB, id_registro, valorNuevo, campoModificar):
         cursor = DB.cursor()
         cursor.execute(
             f"SELECT {campoModificar} FROM asistencia WHERE asistencia_id = ?", 
-            (id_registro,),
+            (id_registro),
         )
         resultado = cursor.fetchone()
         if resultado:
-            CorreccionRegistro.aplicar(id_registro, motivo, campoModificar, valorNuevo, resultado[0])
+            CorreccionRegistro.aplicar(id_registro, campoModificar, valorNuevo, resultado[0])
         else:
             return None
 

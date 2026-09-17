@@ -12,5 +12,13 @@ def crearTurno(DB, nombre, horaInicio, horaFinal):
     except:
         return "TURNO NO CREADO"
 
-
-}
+def creacionEstadoAsistencia(DB, nombre):
+ 
+        cursor = DB.cursor()
+        cursor.execute(
+            "INSERT INTO estado_asistencia (nombre_estado) VALUES (?)",
+            (nombre,),
+        )
+        DB.commit()
+        return "ESTADO CREADO"
+    
