@@ -1,15 +1,17 @@
 from correcionregistro import CorreccionRegistro
 import Falta
-import ReporteAsistencia
+from reporteasistencia import ReporteAsistencia
 from empleado import Empleado
+import baseDatos
 
 
 class Administrador:
+    #revisar aplicar
     def corregirRegistro(DB, id_registro, valorNuevo, campoModificar):
         cursor = DB.cursor()
         cursor.execute(
             f"SELECT {campoModificar} FROM asistencia WHERE asistencia_id = ?", 
-            (id_registro),
+            (id_registro,),
         )
         resultado = cursor.fetchone()
         if resultado:
@@ -32,16 +34,27 @@ class Administrador:
             return
         return "NO SE ENVIO CORRECTAMENTE QUE SE QUIERE MODIFICAR"
         
-    def consultarPresentismo(DB, nombre = None, id_turno = None):
-        return ReporteAsistencia(DB, nombre = nombre, id_turno = id_turno)
+    def consultarPresentismo(DB, empleado_id = None, fecha_desde = None, fecha_hasta = None):
+        return ReporteAsistencia.consultar(DB, empleado_id = empleado_id, fecha_desde = fecha_desde, fecha_hasta = fecha_hasta)
+
+    #corregir generar
+    def generarReportes(DB, fecha_desde, fecha_hasta):
+        return ReporteAsistencia.generar(DB, fecha_desde, fecha_hasta)
     
-    def generarReportes(DB):
-        return ReporteAsistencia.generar(DB)
-    
-    def exportar(DB):
-        return ReporteAsistencia.exportarExceñ(DB)
+    def exportar(DB, fecha_desde, fecha_hasta, nombre_archivo = None):
+        return ReporteAsistencia.exportarExcel(DB, fecha_desde, fecha_hasta, nombre_archivo = nombre_archivo)
 
     @staticmethod    
     def agregarEmpleado(DB, dni, nombre, apellido, pin):
         return Empleado.registrarNuevo(DB, dni, nombre, apellido, pin)
+
+
+
+
+DB = baseDatos.inicializar_base_datos()
+Administrador.agregarEmpleado(DB, 1234, "juan", "juan", 1234)
+print(Administrador.consultarPresentismo(DB))
+
+
+
 

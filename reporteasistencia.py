@@ -32,7 +32,7 @@ class ReporteAsistencia:
         cursor = DB.cursor()
         query = """
             SELECT a.asistencia_id, e.nombre, e.apellido, a.fecha, 
-                   a.hora_ingreso, a.salida_intermedia, a.reingreso, a.hora_egreso, a.estado
+                   a.hora_entrada, a.hora_salida, a.estado_asistencia, a.hora_fuera
             FROM asistencia a
             JOIN empleado e ON a.empleado_id = e.empleado_id
             WHERE 1=1
