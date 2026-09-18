@@ -13,8 +13,8 @@ def inicializar_base_datos():
         CREATE TABLE IF NOT EXISTS turno (
             turno_id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre_turno TEXT NOT NULL,
-            hora_inicio TEXT NOT NULL,
-            hora_fin TEXT NOT NULL
+            hora_inicio INTEGER NOT NULL,
+            hora_fin INTEGER NOT NULL
         );
     """)
 

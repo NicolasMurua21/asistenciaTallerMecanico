@@ -12,45 +12,34 @@ class CorreccionRegistro:
         self.asistencia_id = asistencia_id
 
     @classmethod
-    def aplicar(cls, DB, empleado_id, fecha, hora_ingreso, salida_intermedia, reingreso, hora_egreso, motivo):
+    def aplicar(cls, DB, id_registro, camposModificar, hora_salida = None, fecha = None, hora_entrada = None, estado_asistencia = None, hora_fuera = None ):
+        valores_disponibles = {
+            "hora_salida": hora_salida,
+            "fecha": fecha,
+            "hora_entrada": hora_entrada,
+            "estado_asistencia": estado_asistencia,
+            "hora_fuera": hora_fuera
+        }
+        
+        
+        valoresNuevos = [valores_disponibles[campo] for campo in camposModificar]
+        
         cursor = DB.cursor()
         
+        
+        set_clause = ", ".join([f"{campo} = ?" for campo in camposModificar])
+        
+        parametros = tuple(valoresNuevos) + (id_registro,)
+        
         cursor.execute(
-            "SELECT asistencia_id, hora_ingreso, salida_intermedia, reingreso, hora_egreso FROM asistencia WHERE empleado_id = ? AND fecha = ?",
-            (empleado_id, fecha)
+            f"UPDATE asistencia SET {set_clause} WHERE asistencia_id = ?",
+            parametros
         )
-        resultado = cursor.fetchone()
         
-        valor_nuevo_str = f"{hora_ingreso}|{salida_intermedia}|{reingreso}|{hora_egreso}"
-        
-        if resultado:
-            asistencia_id = resultado[0]
-            valor_anterior_str = f"{resultado[1]}|{resultado[2]}|{resultado[3]}|{resultado[4]}"
-            
-            cursor.execute("""
-                UPDATE asistencia 
-                SET hora_ingreso = ?, salida_intermedia = ?, reingreso = ?, hora_egreso = ?, estado = 'Modificado'
-                WHERE asistencia_id = ?
-            """, (hora_ingreso, salida_intermedia, reingreso, hora_egreso, asistencia_id))
-        else:
-            valor_anterior_str = "Sin registro previo"
-            cursor.execute("""
-                INSERT INTO asistencia (empleado_id, fecha, hora_ingreso, salida_intermedia, reingreso, hora_egreso, estado)
-                VALUES (?, ?, ?, ?, ?, ?, 'Modificado')
-            """, (empleado_id, fecha, hora_ingreso, salida_intermedia, reingreso, hora_egreso))
-            asistencia_id = cursor.lastrowid
-
-        fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        cursor.execute("""
-            INSERT INTO correccion_registro (fecha_hora, motivo, valor_anterior, valor_nuevo, empleado_id, asistencia_id)
-            VALUES (?, ?, ?, ?, ?, ?)
-        """, (fecha_actual, motivo, valor_anterior_str, valor_nuevo_str, empleado_id, asistencia_id))
-        
-        id_correccion = cursor.lastrowid
         DB.commit()
 
-        return cls(id_correccion, fecha_actual, motivo, valor_anterior_str, valor_nuevo_str, empleado_id, asistencia_id)
-
+        # Devuelve la cantidad de filas cambiadas (True si fue exitoso, False si no)
+        return cursor.rowcount > 0
     @classmethod
     def deshacer(cls, DB, id_correccion):
         cursor = DB.cursor()
