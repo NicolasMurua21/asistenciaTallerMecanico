@@ -1,12 +1,12 @@
 from correcionregistro import CorreccionRegistro
-#import Falta
+import Falta
 from reporteasistencia import ReporteAsistencia
 from empleado import Empleado
 import baseDatos
 
 
 class Administrador:
-    #revisar aplicar
+   
     def corregirRegistro(DB, DNI, fechaEmpleado ,camposModificar,  hora_salida = None, fecha = None, hora_entrada = None, estado_asistencia = None, hora_fuera = None ):
         cursor = DB.cursor()
         cursor.execute(
@@ -31,20 +31,35 @@ class Administrador:
 
 
         
-    def gestionarFalta(DB, id_empleado, id_falta, justificar = None, Anular = None, registrar = None, motivo = None, horaEgreso = None, HoraIngreso = None):
-        #if justificar is True:
-            #Falta.justificar(DB, id_empleado, id_falta, motivo)
+    def gestionarFalta(DB, DNI, id_falta, justificar = None, Anular = None, registrar = None, motivo = None, horaEgreso = None, HoraIngreso = None):
+        cursor = DB.cursor()
+        cursor.execute(
+            "SELECT empleado_id FROM empleado WHERE documento = ?", 
+            (DNI,)
+        )
+        id_empleado = cursor.fetchone()
+        if justificar is True:
+            Falta.justificar(DB, id_empleado, id_falta, motivo)
             return
-        #if Anular is True:
+        if Anular is True:
             Falta.anular(DB, id_empleado, id_falta, motivo)
             return
-        #if registrar is True:
+        if registrar is True:
             Falta.registrar(DB, id_empleado, id_falta, horaEgreso, HoraIngreso)
             return
-        #return "NO SE ENVIO CORRECTAMENTE QUE SE QUIERE MODIFICAR"
+        return "NO SE ENVIO CORRECTAMENTE QUE SE QUIERE MODIFICAR"
         
-    def consultarPresentismo(DB, empleado_id = None, fecha_desde = None, fecha_hasta = None):
-        return ReporteAsistencia.consultar(DB, empleado_id = empleado_id, fecha_desde = fecha_desde, fecha_hasta = fecha_hasta)
+    def consultarPresentismo(DB, DNI = None, fecha_desde = None, fecha_hasta = None):
+        if DNI:
+            cursor = DB.cursor()
+            cursor.execute(
+                "SELECT empleado_id FROM empleado WHERE documento = ?", 
+                (DNI,)
+            )
+            id_empleado = cursor.fetchone()
+            return ReporteAsistencia.consultar(DB, id_empleado, fecha_desde = fecha_desde, fecha_hasta = fecha_hasta)
+        else:
+            return ReporteAsistencia.consultar(DB, id_empleado = None, fecha_desde = fecha_desde, fecha_hasta = fecha_hasta)
 
     #corregir generar
     def generarReportes(DB, fecha_desde, fecha_hasta):
@@ -56,20 +71,9 @@ class Administrador:
     @staticmethod    
     def agregarEmpleado(DB, dni, nombre, apellido, pin):
         return Empleado.registrarNuevo(DB, dni, nombre, apellido, pin)
-        pass
 
 
 
-DB = baseDatos.inicializar_base_datos()
-resultado = Administrador.corregirRegistro(
-    DB=DB,
-    DNI=1234,
-    fechaEmpleado="16/9",
-    camposModificar=["hora_entrada"],
-    hora_entrada=8
-)
-
-print(resultado)
 
 
 
