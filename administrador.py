@@ -31,22 +31,27 @@ class Administrador:
 
 
         
-    def gestionarFalta(DB, DNI, id_falta, justificar = None, Anular = None, registrar = None, motivo = None, horaEgreso = None, HoraIngreso = None):
+    def gestionarFalta(DB, DNI, fecha, justificar = None, Anular = None, registrar = None, motivo = None, horaEgreso = None, HoraIngreso = None):
         cursor = DB.cursor()
         cursor.execute(
             "SELECT empleado_id FROM empleado WHERE documento = ?", 
             (DNI,)
         )
         id_empleado = cursor.fetchone()
+        cursor.execute(
+            "SELECT asistencia_id FROM asistencia WHERE fecha = ? AND empleado_id = ?",
+            (fecha, id_empleado,)
+        )
+        id_falta = cursor.fetchone()
         if justificar is True:
             Falta.justificar(DB, id_empleado, id_falta, motivo)
-            return
+            return "EXITO"
         if Anular is True:
             Falta.anular(DB, id_empleado, id_falta, motivo)
-            return
+            return "EXITO"
         if registrar is True:
             Falta.registrar(DB, id_empleado, id_falta, horaEgreso, HoraIngreso)
-            return
+            return "EXITO"
         return "NO SE ENVIO CORRECTAMENTE QUE SE QUIERE MODIFICAR"
         
     def consultarPresentismo(DB, DNI = None, fecha_desde = None, fecha_hasta = None):
