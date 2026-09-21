@@ -1,7 +1,9 @@
 ##ACA VA TODA LA LOGICA QUE TIENE QUE VER CON LA API DE FASTAPI
 from fastapi import FastAPI, Request, HTTPException
 from administrador import Administrador
+from fastapi.responses import FileResponse
 import baseDatos
+import os
 
 DB = baseDatos.inicializar_base_datos()
 app = FastAPI()
@@ -35,7 +37,28 @@ async def faltas(dni : str, fecha : str, request: Request):
     return resultado
 
 @app.get("/api/admin/empleados/consultarPresentismo")
-async def presentismo(dni : str = None, fecha_desde : str = None, fecha_hasta : str = None):
- 
+def presentismo(dni : str = None, fecha_desde : str = None, fecha_hasta : str = None):
     return Administrador.consultarPresentismo(DB, dni, fecha_desde, fecha_hasta)
+
+@app.get("/api/admin/empleados/generar/{fecha_desde}/{fecha_hasta}")
+def generarReporte(fecha_desde : str, fecha_hasta : str):
+    return Administrador.generarReportes(DB, fecha_desde, fecha_hasta)
+
+@app.get("/api/admin/empleados/exportar/{fecha_desde}/{fecha_hasta}")
+def exportarAexcel(fecha_desde : str, fecha_hasta : str, nombreArchivo : str = None):
+    resultado = Administrador.exportar(DB, fecha_desde, fecha_hasta, nombreArchivo)
+
+    if not resultado or not os.path.exists(resultado):
+        raise HTTPException(status_code=404, detail="No se pudo generar el archivo")
+
+    if not nombreArchivo:
+        nombreDescargar = os.path.basename(resultado)
+    else:
+        nombreDescargar = nombreArchivo
+
+    return FileResponse(
+        path=resultado,
+        media_type="text/csv",
+        filename=nombreDescargar
+    )
     
