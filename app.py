@@ -8,6 +8,19 @@ import os
 DB = baseDatos.inicializar_base_datos()
 app = FastAPI()
 
+def manejar_respuesta_negocio(resultado):
+    if resultado == "FALTAN DATOS":
+        raise HTTPException(status_code=400, detail="Faltan datos obligatorios")
+    
+    if resultado == "EMPLEADO NO EXISTE":
+        raise HTTPException(status_code=404, detail="El empleado no existe")
+        
+    if resultado == "ERROR INTERNO":
+        raise HTTPException(status_code=500, detail="Ocurrió un error inesperado en el servidor")
+        
+
+    return resultado
+
 
 @app.patch("/api/admin/empleados/{dni}/asistencias/{fechaEmpleado}")
 async def corregir_asistencia(dni : str, fechaEmpleado, request: Request):
@@ -19,9 +32,7 @@ async def corregir_asistencia(dni : str, fechaEmpleado, request: Request):
     camposModificar = datos.pop("camposModificar", [])
     resultado = Administrador.corregirRegistro(DB, dni, fechaEmpleado, camposModificar, **datos)
 
-    if resultado == "EMPLEADO NO EXISTE":
-          raise HTTPException(status_code=404, detail="No se encontro al empleado")
-
+    manejar_respuesta_negocio(resultado)
     return {"mensaje": "Procesado con éxito", "resultado": resultado}
 
 
@@ -33,21 +44,26 @@ async def faltas(dni : str, fecha : str, request: Request):
         raise HTTPException(status_code=400, detail="No se enviaron datos")
 
     resultado = Administrador.gestionarFalta(DB, dni, fecha, **datos)
+    manejar_respuesta_negocio(resultado)
 
     return resultado
 
 @app.get("/api/admin/empleados/consultarPresentismo")
 def presentismo(dni : str = None, fecha_desde : str = None, fecha_hasta : str = None):
-    return Administrador.consultarPresentismo(DB, dni, fecha_desde, fecha_hasta)
+    resultado = Administrador.consultarPresentismo(DB, dni, fecha_desde, fecha_hasta)
+    manejar_respuesta_negocio(resultado)
+    return resultado
 
 @app.get("/api/admin/empleados/generar/{fecha_desde}/{fecha_hasta}")
 def generarReporte(fecha_desde : str, fecha_hasta : str):
-    return Administrador.generarReportes(DB, fecha_desde, fecha_hasta)
+    resultado = Administrador.generarReportes(DB, fecha_desde, fecha_hasta)
+    manejar_respuesta_negocio(resultado)
+    return resultado
 
 @app.get("/api/admin/empleados/exportar/{fecha_desde}/{fecha_hasta}")
 def exportarAexcel(fecha_desde : str, fecha_hasta : str, nombreArchivo : str = None):
     resultado = Administrador.exportar(DB, fecha_desde, fecha_hasta, nombreArchivo)
-
+    manejar_respuesta_negocio(resultado)
     if not resultado or not os.path.exists(resultado):
         raise HTTPException(status_code=404, detail="No se pudo generar el archivo")
 
@@ -63,16 +79,9 @@ def exportarAexcel(fecha_desde : str, fecha_hasta : str, nombreArchivo : str = N
     )
 
 
-@app.post("/api/admin/empleados/agregarEmplado")
+@app.post("/api/admin/empleados/agregarEmpleado")
 async def agregarEndpoint(request : Request):
     datos = await request.json()
-
-    if not datos:
-        raise HTTPException(status_code=400, detail="No se enviaron datos")
-
     resultado = Administrador.agregarEmpleado(DB, **datos)
-
-    if resultado == "FALTAN DATOS":
-        raise HTTPException(status_code=422, detail="No se enviaron los datos completo")
-    else:
-        return resultado
+    manejar_respuesta_negocio(resultado)
+    return resultado
