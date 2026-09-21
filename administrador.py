@@ -27,10 +27,7 @@ class Administrador:
             return CorreccionRegistro.aplicar(DB, asistencia[0], camposModificar, hora_salida = hora_salida, fecha = fecha, hora_entrada = hora_entrada, estado_asistencia = estado_asistencia, hora_fuera = hora_fuera )
         else:
             return None
-
-
-
-        
+ 
     def gestionarFalta(DB, DNI, fecha, justificar = None, Anular = None, registrar = None, motivo = None, horaEgreso = None, HoraIngreso = None):
         cursor = DB.cursor()
         cursor.execute(
@@ -75,6 +72,8 @@ class Administrador:
 
     @staticmethod    
     def agregarEmpleado(DB, dni, nombre, apellido, pin):
+        if not dni or not nombre or not apellido:
+            return "FALTAN DATOS"
         return Empleado.registrarNuevo(DB, dni, nombre, apellido, pin)
 
 

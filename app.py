@@ -61,4 +61,18 @@ def exportarAexcel(fecha_desde : str, fecha_hasta : str, nombreArchivo : str = N
         media_type="text/csv",
         filename=nombreDescargar
     )
-    
+
+
+@app.post("/api/admin/empleados/agregarEmplado")
+async def agregarEndpoint(request : Request):
+    datos = await request.json()
+
+    if not datos:
+        raise HTTPException(status_code=400, detail="No se enviaron datos")
+
+    resultado = Administrador.agregarEmpleado(DB, **datos)
+
+    if resultado == "FALTAN DATOS":
+        raise HTTPException(status_code=422, detail="No se enviaron los datos completo")
+    else:
+        return resultado
