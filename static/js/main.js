@@ -1,112 +1,133 @@
 // Esperar a que el HTML cargue por completo
 document.addEventListener("DOMContentLoaded", function () {
 
-    // --- 1. CARGAR LISTA DE EMPLEADOS (DATOS DE PRUEBA) ---
-    var selectEmpleado = document.getElementById("select-empleado");
-
-    if (selectEmpleado) {
-        var empleados = [
-            { id: 1, nombre: "Carlos Murúa", legajo: "M-101", dni: "38.123.456", turno: "Mañana", horario: "08:00 a 16:00" },
-            { id: 2, nombre: "Nicolás Gómez", legajo: "M-102", dni: "40.987.654", turno: "Tarde", horario: "12:00 a 20:00" },
-            { id: 3, nombre: "Arian González", legajo: "M-103", dni: "35.456.789", turno: "Mañana", horario: "08:00 a 16:00" }
-        ];
-
-        // Llenar el combo desplegable
-        for (var i = 0; i < empleados.length; i++) {
-            var opcion = document.createElement("option");
-            opcion.value = empleados[i].id;
-            opcion.textContent = empleados[i].nombre + " (Legajo: " + empleados[i].legajo + ")";
-            selectEmpleado.appendChild(opcion);
-        }
-
-        // Cambio de tarjeta al seleccionar empleado
-        selectEmpleado.addEventListener("change", function () {
-            var idSeleccionado = parseInt(selectEmpleado.value);
-            var cardEmpleado = document.querySelector(".card-empleado");
-
-            var empleadoEncontrado = null;
-            for (var j = 0; j < empleados.length; j++) {
-                if (empleados[j].id === idSeleccionado) {
-                    empleadoEncontrado = empleados[j];
-                    break;
-                }
-            }
-
-            if (empleadoEncontrado) {
-                cardEmpleado.innerHTML = 
-                    '<div>' +
-                        '<h3>' + empleadoEncontrado.nombre + '</h3>' +
-                        '<p>DNI: ' + empleadoEncontrado.dni + '</p>' +
-                        '<p>Legajo: ' + empleadoEncontrado.legajo + '</p>' +
-                    '</div>' +
-                    '<div><p><strong>Turno asignado:</strong> ' + empleadoEncontrado.turno + '</p></div>' +
-                    '<div><p><strong>Horario turno:</strong> ' + empleadoEncontrado.horario + '</p></div>';
-            } else {
-                cardEmpleado.innerHTML = 
-                    '<div>' +
-                        '<h3>Seleccione un empleado</h3>' +
-                        '<p>DNI: ---</p>' +
-                        '<p>Legajo: ---</p>' +
-                    '</div>' +
-                    '<div><p><strong>Turno asignado:</strong> ---</p></div>' +
-                    '<div><p><strong>Horario turno:</strong> --- a ---</p></div>';
-            }
-        });
-    }
-
-    // --- 2. BOTÓN BUSCAR REGISTRO ---
+    // --- 1. BUSCAR REGISTRO DE ASISTENCIA (GET) ---
     var btnBuscar = document.getElementById("btn-buscar-registro");
     if (btnBuscar) {
         btnBuscar.addEventListener("click", function () {
-            var empId = selectEmpleado.value;
-            var fecha = document.getElementById("input-fecha").value;
+            var dni = document.getElementById("input-dni") ? document.getElementById("input-dni").value : "";
+            var fecha = document.getElementById("input-fecha") ? document.getElementById("input-fecha").value : "";
 
-            if (empId === "" || fecha === "") {
-                alert("Por favor, seleccione un empleado y una fecha.");
+            if (!dni || !fecha) {
+                alert("Por favor, ingrese el DNI del empleado y la fecha.");
                 return;
             }
 
-            // Simulación de búsqueda exitosa
-            alert("Búsqueda realizada con éxito para la fecha seleccionada.");
+            // Petición a FastAPI para consultar el presentismo
+            fetch(`/api/admin/empleados/consultarPresentismo?dni=${dni}&fecha_desde=${fecha}&fecha_hasta=${fecha}`)
+                .then(function (response) {
+                    if (!response.ok) {
+                        throw new Error("No se encontraron registros o el empleado no existe.");
+                    }
+                    return response.json();
+                })
+                .then(function (data) {
+                    alert("Datos obtenidos con éxito del servidor.");
+                    console.log("Respuesta servidor:", data);
+                })
+                .catch(function (error) {
+                    alert("Error: " + error.message);
+                });
         });
     }
 
-    // --- 3. BOTÓN GUARDAR CAMBIOS ---
+    // --- 2. GUARDAR MODIFICACIÓN DE ASISTENCIA (PATCH) ---
     var btnGuardar = document.getElementById("btn-guardar-cambios");
     if (btnGuardar) {
         btnGuardar.addEventListener("click", function (e) {
-            e.preventDefault(); // Evitar que recargue la página
+            e.preventDefault(); // Evitar que el formulario recargue la página
 
-            var empId = selectEmpleado.value;
-            var motivo = document.getElementById("input-motivo").value;
+            var dni = document.getElementById("input-dni") ? document.getElementById("input-dni").value : "";
+            var fecha = document.getElementById("input-fecha") ? document.getElementById("input-fecha").value : "";
+            var motivo = document.getElementById("input-motivo") ? document.getElementById("input-motivo").value : "";
 
-            if (empId === "") {
-                alert("Debe seleccionar un empleado.");
+            var nuevoIngreso = document.getElementById("input-nuevo-ingreso") ? document.getElementById("input-nuevo-ingreso").value : "";
+            var nuevaSalidaInt = document.getElementById("input-nueva-salida-int") ? document.getElementById("input-nueva-salida-int").value : "";
+            var nuevoReingreso = document.getElementById("input-nuevo-reingreso") ? document.getElementById("input-nuevo-reingreso").value : "";
+            var nuevoEgreso = document.getElementById("input-nuevo-egreso") ? document.getElementById("input-nuevo-egreso").value : "";
+
+            if (!dni || !fecha) {
+                alert("Debe ingresar el DNI y la fecha.");
                 return;
             }
 
-            if (motivo.trim() === "") {
+            if (!motivo.trim()) {
                 alert("El motivo de la modificación es obligatorio.");
                 return;
             }
 
-            alert("Modificación guardada con éxito.");
+            // Armar el objeto JSON con los campos requeridos por app.py
+            var camposModificar = [];
+            if (nuevoIngreso) camposModificar.push("hora_entrada");
+            if (nuevaSalidaInt) camposModificar.push("salida_intermedia");
+            if (nuevoReingreso) camposModificar.push("reingreso");
+            if (nuevoEgreso) camposModificar.push("hora_salida");
+
+            var datosBody = {
+                motivo: motivo,
+                hora_entrada: nuevoIngreso,
+                salida_intermedia: nuevaSalidaInt,
+                reingreso: nuevoReingreso,
+                hora_salida: nuevoEgreso,
+                camposModificar: camposModificar
+            };
+
+            // Petición PATCH al endpoint de FastAPI creado por Nicolás
+            fetch(`/api/admin/empleados/${dni}/asistencias/${fecha}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(datosBody)
+            })
+            .then(function (response) {
+                return response.json().then(function (data) {
+                    if (!response.ok) {
+                        throw new Error(data.detail || "Error al actualizar los datos.");
+                    }
+                    return data;
+                });
+            })
+            .then(function (data) {
+                alert("¡Modificación guardada con éxito en la base de datos!");
+                console.log("Respuesta servidor:", data);
+            })
+            .catch(function (error) {
+                alert("Error: " + error.message);
+            });
         });
     }
 
-    // --- 4. BOTÓN CANCELAR ---
+    // --- 3. EXPORTAR A EXCEL / CSV (GET) ---
+    var btnExportar = document.getElementById("btn-exportar");
+    if (btnExportar) {
+        btnExportar.addEventListener("click", function () {
+            var fechaDesde = document.getElementById("input-fecha-desde") ? document.getElementById("input-fecha-desde").value : "";
+            var fechaHasta = document.getElementById("input-fecha-hasta") ? document.getElementById("input-fecha-hasta").value : "";
+
+            if (!fechaDesde || !fechaHasta) {
+                alert("Debe seleccionar un rango de fechas para exportar.");
+                return;
+            }
+
+            // Redireccionar directamente para descargar el archivo CSV generado por FastAPI
+            window.location.href = `/api/admin/empleados/exportar/${fechaDesde}/${fechaHasta}`;
+        });
+    }
+
+    // --- 4. BOTÓN CANCELAR Y LIMPIAR ---
     var btnCancelar = document.getElementById("btn-cancelar");
     if (btnCancelar) {
         btnCancelar.addEventListener("click", function () {
-            document.getElementById("input-nuevo-ingreso").value = "";
-            document.getElementById("input-nueva-salida-int").value = "";
-            document.getElementById("input-nuevo-reingreso").value = "";
-            document.getElementById("input-nuevo-egreso").value = "";
-            document.getElementById("input-motivo").value = "";
+            if (document.getElementById("input-nuevo-ingreso")) document.getElementById("input-nuevo-ingreso").value = "";
+            if (document.getElementById("input-nueva-salida-int")) document.getElementById("input-nueva-salida-int").value = "";
+            if (document.getElementById("input-nuevo-reingreso")) document.getElementById("input-nuevo-reingreso").value = "";
+            if (document.getElementById("input-nuevo-egreso")) document.getElementById("input-nuevo-egreso").value = "";
+            if (document.getElementById("input-motivo")) document.getElementById("input-motivo").value = "";
         });
     }
 
-    // --- 5. NAVEGACIÓN ENTRE PANTALLAS ---
+    // --- 5. NAVEGACIÓN ---
     var btnNavAsistencia = document.getElementById("btn-nav-asistencia");
     if (btnNavAsistencia) {
         btnNavAsistencia.addEventListener("click", function () {
