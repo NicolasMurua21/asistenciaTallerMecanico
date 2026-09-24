@@ -61,6 +61,7 @@ def inicializar_base_datos():
             hora_salida TEXT,
             estado_asistencia INTEGER NOT NULL,
             hora_fuera INTEGER,
+            autocompletado BOOL DEFAULT FALSE,
             FOREIGN KEY (empleado_id) REFERENCES empleado(empleado_id),
             FOREIGN KEY (estado_asistencia) REFERENCES estado_asistencia(estado_id)
         );
@@ -71,6 +72,7 @@ def inicializar_base_datos():
         CREATE TABLE IF NOT EXISTS justificacion (
             justificacion_id INTEGER PRIMARY KEY AUTOINCREMENT,
             asistencia_id INTEGER NOT NULL,
+            nombre_M TEXT,
             motivo TEXT,
             fecha_solicitud TEXT NOT NULL,
             justificado INTEGER NOT NULL, -- 0 para Falso (No), 1 para Verdadero (Sí)

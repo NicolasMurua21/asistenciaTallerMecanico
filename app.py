@@ -85,3 +85,4 @@ async def agregarEndpoint(request : Request):
     resultado = Administrador.agregarEmpleado(DB, **datos)
     manejar_respuesta_negocio(resultado)
     return resultado
+
