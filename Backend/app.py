@@ -1,6 +1,9 @@
 ##ACA VA TODA LA LOGICA QUE TIENE QUE VER CON LA API DE FASTAPI
 from fastapi import FastAPI, Request, HTTPException
 from ..clases.administrador import Administrador
+from ..clases.empleado import Empleado
+import salidaintermedia
+import registroasistencia
 from fastapi.responses import FileResponse
 import baseDatos
 import os
@@ -41,7 +44,7 @@ async def faltas(dni : str, fecha : str, request: Request):
     datos = await request.json()
 
     if not datos:
-        raise HTTPException(status_code=400, detail="No se enviaron datos")
+        raise HTTPException(status_code=400, detail="reNo se enviaron datos")
 
     resultado = Administrador.gestionarFalta(DB, dni, fecha, **datos)
     manejar_respuesta_negocio(resultado)
@@ -85,3 +88,23 @@ async def agregarEndpoint(request : Request):
     resultado = Administrador.agregarEmpleado(DB, **datos)
     manejar_respuesta_negocio(resultado)
     return resultado
+
+@app.patch("/api/asistencia/empleados/ingreso")
+def marcarIngreso(pin : str):
+    id_empleado = Empleado.obtenerID(DB, pin)
+    registroasistencia.registrarIngreso(DB, id_empleado)
+
+@app.patch("/api/asistencia/empleados/salida")
+def marcarSalida(pin : str):
+    id_empleado = Empleado.obtenerID(DB, pin)
+    registroasistencia.registrarSalida(DB, id_empleado)
+
+@app.patch("/api/asistencia/empleados/salidaIntermedia")
+def salidaIntermedia(pin : str):
+    id_empleado = Empleado.obtenerID(DB, pin)
+    salidaintermedia.registrar_salida_intermedia(DB, id_empleado)
+
+@app.patch("/api/asistencia/empleados/reingreso")
+def reingreso(pin : str):
+    id_empleado = Empleado.obtenerID(DB, pin)
+    salidaintermedia.reingreso(DB, id_empleado)
