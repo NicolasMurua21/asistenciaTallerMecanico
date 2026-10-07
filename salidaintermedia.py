@@ -1,32 +1,13 @@
-import sqlite3
 from datetime import datetime
 
-
-def registrar_salida_intermedia(documento):
-    conexion = sqlite3.connect("taller_mecanico.db")
-    cursor = conexion.cursor()
+def registrar_reingreso(DB, empleado_id):
+    cursor = DB.cursor()
 
     try:
-        
-        cursor.execute("""
-            SELECT empleado_id, nombre, apellido
-            FROM empleado
-            WHERE documento = ?
-        """, (documento,))
-
-        empleado = cursor.fetchone()
-
-        if empleado is None:
-            print("No se encontró un empleado con ese DNI.")
-            return False
-
-        empleado_id = empleado[0]
-
-        
         fecha_actual = datetime.now().strftime("%Y-%m-%d")
 
         cursor.execute("""
-            SELECT asistencia_id, hora_salida
+            SELECT asistencia_id, hora_fuera
             FROM asistencia
             WHERE empleado_id = ?
             AND fecha = ?
@@ -39,42 +20,33 @@ def registrar_salida_intermedia(documento):
             return False
 
         asistencia_id = asistencia[0]
-        hora_salida = asistencia[1]
+        hora_fuera = asistencia[1]
 
-        
-        if hora_salida is not None:
-            print("El empleado ya registró su salida.")
+        if hora_fuera is None:
+            print("El empleado no tiene una salida intermedia registrada.")
             return False
 
-        
         hora_actual = datetime.now().strftime("%H:%M:%S")
+
+        hora_salida_fuera = datetime.strptime(hora_fuera, "%H:%M:%S")
+        hora_reingreso = datetime.strptime(hora_actual, "%H:%M:%S")
+
+        tiempo_afuerа = hora_reingreso - hora_salida_fuera
 
         cursor.execute("""
             UPDATE asistencia
             SET hora_fuera = ?
             WHERE asistencia_id = ?
-        """, (hora_actual, asistencia_id))
+        """, (int(tiempo_afuerа.total_seconds()), asistencia_id))
 
-        conexion.commit()
+        DB.commit()
 
-        print(
-            f"Salida intermedia registrada para "
-            f"{empleado[1]} {empleado[2]} a las {hora_actual}."
-        )
+        print(f"Reingreso registrado a las {hora_actual}.")
+        print(f"Tiempo afuera: {tiempo_afuerа}")
 
         return True
 
     except sqlite3.Error as error:
         print(f"Error en la base de datos: {error}")
-        conexion.rollback()
+        DB.rollback()
         return False
-
-    finally:
-        conexion.close()
-
-
-if __name__ == "__main__":
-    documento = input("Ingrese el DNI del empleado: ")
-
-    registrar_salida_intermedia(documento)
-
