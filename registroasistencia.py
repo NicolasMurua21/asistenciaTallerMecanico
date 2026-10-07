@@ -2,27 +2,13 @@ import sqlite3
 from datetime import datetime
 
 
-def registrarIngreso(DB, dni):
+def registrarIngreso(DB, empleado_id):
+
     cursor = DB.cursor()
 
-    
-    cursor.execute(
-        "SELECT empleado_id FROM empleado WHERE documento = ?",
-        (dni,)
-    )
-
-    empleado = cursor.fetchone()
-
-    if empleado is None:
-        return "EMPLEADO NO EXISTE"
-
-    empleado_id = empleado[0]
-
-    
     fecha_actual = datetime.now().strftime("%Y-%m-%d")
     hora_actual = datetime.now().strftime("%H:%M:%S")
 
-   
     cursor.execute(
         """
         SELECT asistencia_id
@@ -37,7 +23,6 @@ def registrarIngreso(DB, dni):
     if asistencia is not None:
         return "YA REGISTRO EL INGRESO HOY"
 
-    
     cursor.execute(
         """
         INSERT INTO asistencia
@@ -52,27 +37,13 @@ def registrarIngreso(DB, dni):
     return "INGRESO REGISTRADO"
 
 
-def registrarSalida(DB, dni):
+def registrarSalida(DB, empleado_id):
+
     cursor = DB.cursor()
 
-    
-    cursor.execute(
-        "SELECT empleado_id FROM empleado WHERE documento = ?",
-        (dni,)
-    )
-
-    empleado = cursor.fetchone()
-
-    if empleado is None:
-        return "EMPLEADO NO EXISTE"
-
-    empleado_id = empleado[0]
-
-    
     fecha_actual = datetime.now().strftime("%Y-%m-%d")
     hora_actual = datetime.now().strftime("%H:%M:%S")
 
-    
     cursor.execute(
         """
         SELECT asistencia_id, hora_entrada, hora_salida
@@ -91,11 +62,9 @@ def registrarSalida(DB, dni):
     hora_entrada = asistencia[1]
     hora_salida = asistencia[2]
 
-    
     if hora_salida is not None:
         return "YA REGISTRO LA SALIDA"
 
-    
     cursor.execute(
         """
         UPDATE asistencia
@@ -110,8 +79,8 @@ def registrarSalida(DB, dni):
     return "SALIDA REGISTRADA"
 
 
-def calcularHorasTrabajadas(empleado_id):
-    DB = sqlite3.connect("taller_mecanico.db")
+def calcularHorasTrabajadas(DB, empleado_id):
+
     cursor = DB.cursor()
 
     cursor.execute(
@@ -143,7 +112,4 @@ def calcularHorasTrabajadas(empleado_id):
         except ValueError:
             pass
 
-    DB.close()
-
     return round(total_segundos / 3600, 2)
-
