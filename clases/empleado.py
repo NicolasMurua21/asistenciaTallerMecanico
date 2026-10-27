@@ -1,5 +1,5 @@
 import sqlite3
-import RegistroAsistencia
+from registroasistencia import registroAsistencia
 
 
 class Empleado:
