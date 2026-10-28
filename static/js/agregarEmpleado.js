@@ -1,4 +1,3 @@
-
 const API_URL = 'http://127.0.0.1:8000';
 
 document.querySelector('.form-empleado').addEventListener('submit', async (e) => {
@@ -11,7 +10,6 @@ document.querySelector('.form-empleado').addEventListener('submit', async (e) =>
     };
 
     try {
-        // Usás la variable para armar la URL completa
         const response = await fetch(`${API_URL}/api/admin/empleados/agregarEmpleado`, {
             method: 'POST',
             headers: {
@@ -20,17 +18,21 @@ document.querySelector('.form-empleado').addEventListener('submit', async (e) =>
             body: JSON.stringify(datos)
         });
 
+        // Leemos la respuesta del servidor primero para poder usarla tanto en éxito como en error
+        const resultado = await response.json();
+
         if (!response.ok) {
-            throw new Error('Error al registrar el empleado');
+            // Si FastAPI devuelve un error (ej. HTTPException), mostramos ese detalle
+            throw new Error(resultado.detail || 'Error al registrar el empleado');
         }
 
-        const resultado = await response.json();
+        // Mostramos el texto exacto que devuelve el return de Python en la alerta
+        alert(resultado);
         
-        alert('¡Empleado añadido con éxito!');
         document.querySelector('.form-empleado').reset();
 
     } catch (error) {
         console.error('Error:', error);
-        alert('No se pudo completar la operación.');
+        alert(`No se pudo completar la operación: ${error.message}`);
     }
 });

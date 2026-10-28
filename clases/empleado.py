@@ -66,10 +66,9 @@ class Empleado:
         )
         DB.commit()
 
-        return cls(dni, nombre, apellido, pin)
+        return "Empleado Registrado"
       except:
-          print("YA EXISTE")
-          return None
+          return "El empleado ya esta registrado"
       
 
     def obtenerID(DB, dni = None, pin = None):

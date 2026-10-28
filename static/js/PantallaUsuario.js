@@ -22,13 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
+            // 'data' aquí recibe exactamente el texto que devuelve el return de Python (ej: "INGRESO REGISTRADO")
             const data = await response.json();
 
             if (!response.ok) {
                 throw new Error(data.detail || 'Error al procesar la asistencia.');
             }
 
-            alert('¡Operación registrada con éxito!');
+            // CAMBIO: Mostramos el texto exacto que envió Python en lugar de un texto fijo
+            alert(data); 
+            
             pinInput.value = ''; // Limpiamos el input
             pinInput.focus();
         } catch (error) {

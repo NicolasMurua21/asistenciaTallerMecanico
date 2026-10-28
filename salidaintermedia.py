@@ -83,18 +83,27 @@ class salidaIntermedia:
             hora_salida_fuera = datetime.strptime(hora_fuera, "%H:%M:%S")
             hora_reingreso = datetime.strptime(hora_actual, "%H:%M:%S")
 
-            tiempo_afuerа = hora_reingreso - hora_salida_fuera
+            # Obtenemos la diferencia de tiempo
+            tiempo_afuera = hora_reingreso - hora_salida_fuera
+            
+            # Convertimos los segundos totales a un formato legible de Horas:Minutos:Segundos
+            total_segundos = int(tiempo_afuera.total_seconds())
+            horas = total_segundos // 3600
+            minutos = (total_segundos % 3600) // 60
+            segundos = total_segundos % 60
+            
+            tiempo_formateado = f"{horas:02d}:{minutos:02d}:{segundos:02d}"
 
             cursor.execute("""
                 UPDATE asistencia
                 SET hora_fuera = ?
                 WHERE asistencia_id = ?
-            """, (int(tiempo_afuerа.total_seconds()), asistencia_id))
+            """, (tiempo_formateado, asistencia_id))
 
             DB.commit()
 
             print(f"Reingreso registrado a las {hora_actual}.")
-            print(f"Tiempo afuera: {tiempo_afuerа}")
+            print(f"Tiempo afuera: {tiempo_formateado}")
 
             return True
 
