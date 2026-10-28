@@ -55,8 +55,9 @@ class Empleado:
             return None
         
     @classmethod
-    def registrarNuevo(cls, DB, dni, nombre, apellido, pin):
+    def registrarNuevo(cls, DB, dni, nombre, apellido):
       try:
+        pin = dni
         cursor = DB.cursor()
         cursor.execute(
             "INSERT INTO empleado (documento, nombre, apellido, pin, fecha_ingreso) VALUES (?, ?,"

@@ -106,11 +106,11 @@ class Administrador:
             return "ERROR INTERNO"
 
     @staticmethod    
-    def agregarEmpleado(DB, dni, nombre, apellido, pin):
+    def agregarEmpleado(DB, dni, nombre, apellido):
         try:
             if not dni or not nombre or not apellido:
                 return "FALTAN DATOS"
-            return Empleado.registrarNuevo(DB, dni, nombre, apellido, pin)
+            return Empleado.registrarNuevo(DB, dni, nombre, apellido)
         except:
             return "ERROR INTERNO"
 

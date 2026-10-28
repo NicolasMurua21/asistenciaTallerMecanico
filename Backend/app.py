@@ -5,18 +5,27 @@ root_dir = os.path.dirname(current_dir)
 sys.path.append(current_dir)
 sys.path.append(root_dir)
 
-##ACA VA TODA LA LOGICA QUE TIENE QUE VER CON LA API DE FASTAPI
 import baseDatos
 from fastapi import FastAPI, Request, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from clases.administrador import Administrador
 from clases.empleado import Empleado
 import salidaintermedia
 import registroasistencia
-from fastapi.responses import FileResponse
-import os
 
+# Inicialización única
 DB = baseDatos.inicializar_base_datos()
 app = FastAPI()
+
+# Única configuración de CORS (bien arriba, antes de las rutas)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def manejar_respuesta_negocio(resultado):
     if resultado == "FALTAN DATOS":
