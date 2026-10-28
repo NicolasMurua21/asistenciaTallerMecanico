@@ -1,40 +1,50 @@
-##ACA VA TODA LA LOGICA QUE TIENE QUE VER CON LA API DE FASTAPI
-from fastapi import FastAPI, Request, HTTPException
-from ..clases.administrador import Administrador
-from ..clases.empleado import Empleado
-import salidaintermedia
-import registroasistencia
-from fastapi.responses import FileResponse
-import baseDatos
+import sys
 import os
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.dirname(current_dir)
+sys.path.append(current_dir)
+sys.path.append(root_dir)
 
+import baseDatos
+from fastapi import FastAPI, Request, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
+from clases.administrador import Administrador
+from clases.empleado import Empleado
+from salidaintermedia import salidaIntermedia
+from registroasistencia import registroAsistencia
+
+# Inicialización única
 DB = baseDatos.inicializar_base_datos()
 app = FastAPI()
+
+# Única configuración de CORS (bien arriba, antes de las rutas)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def manejar_respuesta_negocio(resultado):
     if resultado == "FALTAN DATOS":
         raise HTTPException(status_code=400, detail="Faltan datos obligatorios")
-    
     if resultado == "EMPLEADO NO EXISTE":
         raise HTTPException(status_code=404, detail="El empleado no existe")
-        
     if resultado == "ERROR INTERNO":
         raise HTTPException(status_code=500, detail="Ocurrió un error inesperado en el servidor")
-        
-
     return resultado
 
 
 @app.patch("/api/admin/empleados/{dni}/asistencias/{fechaEmpleado}")
 async def corregir_asistencia(dni : str, fechaEmpleado, request: Request):
     datos = await request.json()
-
     if not datos:
         raise HTTPException(status_code=400, detail="No se enviaron datos")
 
     camposModificar = datos.pop("camposModificar", [])
     resultado = Administrador.corregirRegistro(DB, dni, fechaEmpleado, camposModificar, **datos)
-
     manejar_respuesta_negocio(resultado)
     return {"mensaje": "Procesado con éxito", "resultado": resultado}
 
@@ -42,14 +52,13 @@ async def corregir_asistencia(dni : str, fechaEmpleado, request: Request):
 @app.patch("/api/admin/empleados/{dni}/faltas/{fecha}")
 async def faltas(dni : str, fecha : str, request: Request):
     datos = await request.json()
-
     if not datos:
-        raise HTTPException(status_code=400, detail="reNo se enviaron datos")
+        raise HTTPException(status_code=400, detail="No se enviaron datos")
 
     resultado = Administrador.gestionarFalta(DB, dni, fecha, **datos)
     manejar_respuesta_negocio(resultado)
-
     return resultado
+
 
 @app.get("/api/admin/empleados/consultarPresentismo")
 def presentismo(dni : str = None, fecha_desde : str = None, fecha_hasta : str = None):
@@ -57,11 +66,13 @@ def presentismo(dni : str = None, fecha_desde : str = None, fecha_hasta : str = 
     manejar_respuesta_negocio(resultado)
     return resultado
 
+
 @app.get("/api/admin/empleados/generar/{fecha_desde}/{fecha_hasta}")
 def generarReporte(fecha_desde : str, fecha_hasta : str):
     resultado = Administrador.generarReportes(DB, fecha_desde, fecha_hasta)
     manejar_respuesta_negocio(resultado)
     return resultado
+
 
 @app.get("/api/admin/empleados/exportar/{fecha_desde}/{fecha_hasta}")
 def exportarAexcel(fecha_desde : str, fecha_hasta : str, nombreArchivo : str = None):
@@ -70,10 +81,7 @@ def exportarAexcel(fecha_desde : str, fecha_hasta : str, nombreArchivo : str = N
     if not resultado or not os.path.exists(resultado):
         raise HTTPException(status_code=404, detail="No se pudo generar el archivo")
 
-    if not nombreArchivo:
-        nombreDescargar = os.path.basename(resultado)
-    else:
-        nombreDescargar = nombreArchivo
+    nombreDescargar = nombreArchivo if nombreArchivo else os.path.basename(resultado)
 
     return FileResponse(
         path=resultado,
@@ -89,22 +97,32 @@ async def agregarEndpoint(request : Request):
     manejar_respuesta_negocio(resultado)
     return resultado
 
+
 @app.patch("/api/asistencia/empleados/ingreso")
 def marcarIngreso(pin : str):
     id_empleado = Empleado.obtenerID(DB, pin)
-    registroasistencia.registrarIngreso(DB, id_empleado)
+    
+    if not id_empleado:
+        raise HTTPException(status_code=404, detail="El DNI/PIN ingresado no existe en el sistema")
+        
+    resultado = registroAsistencia.registrarIngreso(DB, id_empleado)
+    manejar_respuesta_negocio(resultado)
+    return resultado
+
 
 @app.patch("/api/asistencia/empleados/salida")
 def marcarSalida(pin : str):
     id_empleado = Empleado.obtenerID(DB, pin)
-    registroasistencia.registrarSalida(DB, id_empleado)
+    return registroAsistencia.registrarSalida(DB, id_empleado)
+
 
 @app.patch("/api/asistencia/empleados/salidaIntermedia")
-def salidaIntermedia(pin : str):
+def marcarSalidaIntermedia(pin : str):
     id_empleado = Empleado.obtenerID(DB, pin)
-    salidaintermedia.registrar_salida_intermedia(DB, id_empleado)
+    return salidaIntermedia.registrar_salida_intermedia(DB, id_empleado)
+
 
 @app.patch("/api/asistencia/empleados/reingreso")
 def reingreso(pin : str):
     id_empleado = Empleado.obtenerID(DB, pin)
-    salidaintermedia.reingreso(DB, id_empleado)
+    return salidaIntermedia.registrar_reingreso(DB, id_empleado)

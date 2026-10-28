@@ -1,5 +1,5 @@
 import sqlite3
-import RegistroAsistencia
+from registroasistencia import registroAsistencia
 
 
 class Empleado:
@@ -50,13 +50,14 @@ class Empleado:
         resultado = cursor.fetchone()
 
         if resultado:
-            return RegistroAsistencia.calcularHorasTrabajadas(resultado[0])
+            return registroAsistencia.calcularHorasTrabajadas(resultado[0])
         else:
             return None
         
     @classmethod
-    def registrarNuevo(cls, DB, dni, nombre, apellido, pin):
+    def registrarNuevo(cls, DB, dni, nombre, apellido):
       try:
+        pin = dni
         cursor = DB.cursor()
         cursor.execute(
             "INSERT INTO empleado (documento, nombre, apellido, pin, fecha_ingreso) VALUES (?, ?,"
@@ -65,10 +66,9 @@ class Empleado:
         )
         DB.commit()
 
-        return cls(dni, nombre, apellido, pin)
+        return "Empleado Registrado"
       except:
-          print("YA EXISTE")
-          return None
+          return "El empleado ya esta registrado"
       
 
     def obtenerID(DB, dni = None, pin = None):

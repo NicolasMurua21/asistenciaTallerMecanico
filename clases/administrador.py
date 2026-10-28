@@ -1,8 +1,14 @@
-from correcionregistro import CorreccionRegistro
-import Falta
-from reporteasistencia import ReporteAsistencia
-from empleado import Empleado
-import baseDatos
+import sys
+import os
+
+
+from .correcionregistro import CorreccionRegistro
+from falta import Falta
+from .reporteasistencia import ReporteAsistencia
+from .empleado import Empleado
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from Backend import baseDatos
 
 
 class Administrador:
@@ -100,11 +106,11 @@ class Administrador:
             return "ERROR INTERNO"
 
     @staticmethod    
-    def agregarEmpleado(DB, dni, nombre, apellido, pin):
+    def agregarEmpleado(DB, dni, nombre, apellido):
         try:
             if not dni or not nombre or not apellido:
                 return "FALTAN DATOS"
-            return Empleado.registrarNuevo(DB, dni, nombre, apellido, pin)
+            return Empleado.registrarNuevo(DB, dni, nombre, apellido)
         except:
             return "ERROR INTERNO"
 
