@@ -11,8 +11,8 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from clases.administrador import Administrador
 from clases.empleado import Empleado
-import salidaintermedia
-import registroasistencia
+from salidaintermedia import salidaIntermedia
+from registroasistencia import registroAsistencia
 
 # Inicialización única
 DB = baseDatos.inicializar_base_datos()
@@ -101,22 +101,28 @@ async def agregarEndpoint(request : Request):
 @app.patch("/api/asistencia/empleados/ingreso")
 def marcarIngreso(pin : str):
     id_empleado = Empleado.obtenerID(DB, pin)
-    return registroasistencia.registrarIngreso(DB, id_empleado)
+    
+    if not id_empleado:
+        raise HTTPException(status_code=404, detail="El DNI/PIN ingresado no existe en el sistema")
+        
+    resultado = registroAsistencia.registrarIngreso(DB, id_empleado)
+    manejar_respuesta_negocio(resultado)
+    return resultado
 
 
 @app.patch("/api/asistencia/empleados/salida")
 def marcarSalida(pin : str):
     id_empleado = Empleado.obtenerID(DB, pin)
-    return registroasistencia.registrarSalida(DB, id_empleado)
+    return registroAsistencia.registrarSalida(DB, id_empleado)
 
 
 @app.patch("/api/asistencia/empleados/salidaIntermedia")
-def salidaIntermedia(pin : str):
+def marcarSalidaIntermedia(pin : str):
     id_empleado = Empleado.obtenerID(DB, pin)
-    return salidaintermedia.registrar_salida_intermedia(DB, id_empleado)
+    return salidaIntermedia.registrar_salida_intermedia(DB, id_empleado)
 
 
 @app.patch("/api/asistencia/empleados/reingreso")
 def reingreso(pin : str):
     id_empleado = Empleado.obtenerID(DB, pin)
-    return salidaintermedia.reingreso(DB, id_empleado)
+    return salidaIntermedia.registrar_reingreso(DB, id_empleado)

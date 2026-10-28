@@ -50,7 +50,7 @@ class Empleado:
         resultado = cursor.fetchone()
 
         if resultado:
-            return RegistroAsistencia.calcularHorasTrabajadas(resultado[0])
+            return registroAsistencia.calcularHorasTrabajadas(resultado[0])
         else:
             return None
         

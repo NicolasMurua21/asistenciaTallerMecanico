@@ -3,7 +3,7 @@ import sqlite3
 from pathlib import Path
 
 def inicializar_base_datos():
-    conexion = sqlite3.connect("taller_mecanico.db")
+    conexion = sqlite3.connect("taller_mecanico.db", check_same_thread=False)
     cursor = conexion.cursor()
 
     cursor.execute("PRAGMA foreign_keys = ON;")
