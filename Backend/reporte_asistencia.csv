@@ -1,0 +1,5 @@
+﻿ID Asistencia,Nombre,Apellido,Fecha,Ingreso,Salida,Estado,Hora Fuera,Horas Trabajadas
+1,Nicolas,Murua,2026-11-08,13:33:03,13:33:13,Presente,,0h 0m
+
+--- TOTAL DE HORAS TRABAJADAS POR EMPLEADO (EN EL PERÍODO) ---
+Nicolas Murua,Total en el período: 0 horas y 0 minutos

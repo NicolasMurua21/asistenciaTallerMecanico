@@ -98,13 +98,17 @@ class Administrador:
             return "ERROR INTERNO"
     
     def exportar(DB, fecha_desde, fecha_hasta, nombre_archivo = None):
-        try:
-            if not DB or not fecha_desde or not fecha_hasta:
-                return "FALTAN DATOS"
-            return ReporteAsistencia.exportarExcel(DB, fecha_desde, fecha_hasta, nombre_archivo = nombre_archivo)
-        except:
-            return "ERROR INTERNO"
-
+            try:
+                if not DB or not fecha_desde or not fecha_hasta:
+                    return "FALTAN DATOS"
+                return ReporteAsistencia.exportarExcel(DB, fecha_desde, fecha_hasta, nombre_archivo = nombre_archivo)
+            except Exception as e:
+                # Imprime el error real en la terminal de Uvicorn en lugar de retornar un string ciego
+                print("EXCEPCIÓN REAL EN ReporteAsistencia.exportarExcel:", str(e))
+                import traceback
+                traceback.print_exc()
+                return "ERROR INTERNO"
+            
     @staticmethod    
     def agregarEmpleado(DB, dni, nombre, apellido):
         try:

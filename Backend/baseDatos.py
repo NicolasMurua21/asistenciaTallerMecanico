@@ -51,6 +51,17 @@ def inicializar_base_datos():
         );
     """)
 
+    estados_iniciales = [
+        ("Presente",),
+        ("Ausente",),
+        ("Tarde",),
+        ("Justificado",)
+    ]
+    cursor.executemany("""
+        INSERT OR IGNORE INTO estado_asistencia (estado_id, nombre_estado) 
+        SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM estado_asistencia WHERE estado_id = ?);
+    """, [(i+1, estado[0], i+1) for i, estado in enumerate(estados_iniciales)])
+
     # Tabla ASISTENCIA
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS asistencia (

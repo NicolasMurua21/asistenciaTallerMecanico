@@ -76,19 +76,25 @@ def generarReporte(fecha_desde : str, fecha_hasta : str):
 
 @app.get("/api/admin/empleados/exportar/{fecha_desde}/{fecha_hasta}")
 def exportarAexcel(fecha_desde : str, fecha_hasta : str, nombreArchivo : str = None):
-    resultado = Administrador.exportar(DB, fecha_desde, fecha_hasta, nombreArchivo)
-    manejar_respuesta_negocio(resultado)
-    if not resultado or not os.path.exists(resultado):
-        raise HTTPException(status_code=404, detail="No se pudo generar el archivo")
+    try:
+        resultado = Administrador.exportar(DB, fecha_desde, fecha_hasta, nombreArchivo)
+        manejar_respuesta_negocio(resultado)
+        if not resultado or not os.path.exists(resultado):
+            raise HTTPException(status_code=404, detail="No se pudo generar el archivo")
 
-    nombreDescargar = nombreArchivo if nombreArchivo else os.path.basename(resultado)
+        nombreDescargar = nombreArchivo if nombreArchivo else os.path.basename(resultado)
 
-    return FileResponse(
-        path=resultado,
-        media_type="text/csv",
-        filename=nombreDescargar
-    )
-
+        return FileResponse(
+            path=resultado,
+            media_type="text/csv",
+            filename=nombreDescargar
+        )
+    except Exception as e:
+        print("ERROR INTERNO EN EXPORTAR:", str(e))
+        import traceback
+        traceback.print_exc() # Esto fuerza a que se imprima todo el error detallado en la terminal
+        traceback.print_exc()
+        raise e
 
 @app.post("/api/admin/empleados/agregarEmpleado")
 async def agregarEndpoint(request : Request):

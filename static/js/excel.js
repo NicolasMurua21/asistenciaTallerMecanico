@@ -1,48 +1,70 @@
-// Elementos del HTML
-const fechaInicio = document.querySelectorAll(".input")[0];
-const fechaFin = document.querySelectorAll(".input")[1];
+const API_URL = 'http://127.0.0.1:8000';
 
-const grupoEmpleados = document.querySelectorAll("select")[1];
+document.addEventListener('DOMContentLoaded', () => {
+    const btnGenerar = document.getElementById('btn-generar-excel');
+    const fechaInicioInput = document.getElementById('fecha-inicio');
+    const fechaFinInput = document.getElementById('fecha-fin');
 
-const botonGenerar = document.querySelector(".generate-btn");
-const botonHistorial = document.querySelector(".history-btn");
-
-const opciones = document.querySelectorAll(
-    ".checkbox-label input"
-);
-
-
-
-botonGenerar.addEventListener("click", function () {
-
-    if (fechaInicio.value === "" || fechaFin.value === "") {
-        alert("Por favor, seleccioná una fecha de inicio y una fecha de fin.");
+    if (!btnGenerar || !fechaInicioInput || !fechaFinInput) {
+        console.error('No se encontraron todos los elementos necesarios en el DOM.');
         return;
     }
 
-    let grupo = grupoEmpleados.value;
+    btnGenerar.addEventListener('click', async (e) => {
+        e.preventDefault();
 
-    let seleccionadas = [];
+        const fechaDesde = fechaInicioInput.value;
+        const fechaHasta = fechaFinInput.value;
 
-    opciones.forEach(function (opcion) {
-        if (opcion.checked) {
-            seleccionadas.push(opcion.parentElement.textContent.trim());
+        if (!fechaDesde || !fechaHasta) {
+            alert('Por favor, selecciona ambas fechas.');
+            return;
+        }
+
+        const textoOriginal = btnGenerar.innerHTML;
+        btnGenerar.disabled = true;
+        btnGenerar.innerHTML = '▣ Generando reporte...';
+
+        try {
+            // Aquí combinamos API_URL con tu endpoint
+            const url = `${API_URL}/api/admin/empleados/exportar/${fechaDesde}/${fechaHasta}`;
+
+            const response = await fetch(url, {
+                method: 'GET',
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.detail || 'No se pudo generar el archivo');
+            }
+
+            const blob = await response.blob();
+
+            const disposition = response.headers.get('Content-Disposition');
+            let filename = `reporte_empleados_${fechaDesde}_al_${fechaHasta}.csv`;
+            if (disposition && disposition.includes('filename=')) {
+                const match = disposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
+                if (match && match[1]) {
+                    filename = match[1].replace(/['"]/g, '');
+                }
+            }
+
+            const downloadUrl = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = downloadUrl;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            
+            a.remove();
+            window.URL.revokeObjectURL(downloadUrl);
+
+        } catch (error) {
+            console.error('Error al exportar:', error);
+            alert(`Error: ${error.message}`);
+        } finally {
+            btnGenerar.disabled = false;
+            btnGenerar.innerHTML = textoOriginal;
         }
     });
-
-    alert(
-        "Reporte generado correctamente.\n\n" +
-        "Desde: " + fechaInicio.value + "\n" +
-        "Hasta: " + fechaFin.value + "\n" +
-        "Grupo: " + grupo + "\n\n" +
-        "Datos incluidos:\n" +
-        seleccionadas.join("\n")
-    );
-});
-
-
-
-botonHistorial.addEventListener("click", function () {
-
-    alert("Mostrando historial de exportaciones...");
 });
