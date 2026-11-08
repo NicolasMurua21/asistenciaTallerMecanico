@@ -169,7 +169,7 @@
                     <form>
 
                         <label>Empleado</label>
-                        <select>
+                        <select id="select-empleado">
                             <option>Seleccionar un empleado...</option>
                           
                         </select>
@@ -177,15 +177,14 @@
                         <label>Fecha de la ausencia</label>
                         <div class="date-input">
                             <span>▣</span>
-                            <input type="text" value="14/01/2026">
+                            <input type="date" id="input-fecha">
                         </div>
 
-                        <label>Tipo de ausencia</label>
+                       <label>Tipo de ausencia</label>
 
                         <div class="absence-types">
-
-                            <label class="type-option justified-option">
-                                <input type="radio" name="absence" checked>
+                            <label class="type-option justified-option" data-value="true">
+                                <input type="radio" name="absence" value="true" style="display: none;">
                                 <span>✓</span>
                                 <div>
                                     <strong>Justificada</strong>
@@ -193,15 +192,14 @@
                                 </div>
                             </label>
 
-                            <label class="type-option unjustified-option">
-                                <input type="radio" name="absence">
-                                <span>♟</span>
+                            <label class="type-option unjustified-option" data-value="false">
+                                <input type="radio" name="absence" value="false" style="display: none;">
+                                <span>✕</span>
                                 <div>
                                     <strong>Injustificada</strong>
                                     <small>(sin justificar)</small>
                                 </div>
                             </label>
-
                         </div>
 
                         <label>Adjuntar certificado (opcional)</label>
@@ -225,27 +223,33 @@
 
                 </div>
 
-                <div class="history-panel">
-
-                    <div class="history-title">
-                        <span>▣</span>
-                        <div>
-                            <h3>Historial de ausencias</h3>
-                            <p>Consultar todas las ausencias registradas.</p>
-                        </div>
+                <div class="historial-container">
+                    <h2>Historial de Ausencias</h2>
+                    
+                    <div class="historial-filter-container" style="margin-bottom: 15px;">
+                        <label for="select-filtro-historial" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                            Filtrar historial por empleado
+                        </label>
+                        <select id="select-filtro-historial" class="form-control" style="width: 100%; padding: 10px; border-radius: 6px; background-color: #0b1c3c; color: white; border: 1px solid rgba(255,255,255,0.2);">
+                            <option value="">-- Ver historial completo (Todos los empleados) --</option>
+                        </select>
                     </div>
 
-                    <button class="history-btn">
-                        ▣ Ver historial completo <span>›</span>
-                    </button>
-
+                    <table class="table" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="text-align: left; border-bottom: 2px solid #ccc;">
+                                <th style="padding: 10px;">N°</th>
+                                <th style="padding: 10px;">Empleado</th>
+                                <th style="padding: 10px;">Fecha de la ausencia</th>
+                                <th style="padding: 10px;">Tipo de ausencia</th>
+                                <th style="padding: 10px;">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-historial-body">
+                            <!-- Las filas se inyectarán aquí automáticamente -->
+                        </tbody>
+                    </table>
                 </div>
-
-            </aside>
-
-        </div>
-
-    </main>
 
 </div>
 

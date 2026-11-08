@@ -8,7 +8,7 @@ class Falta:
     motivo: str
     justificada: bool
 
-    def __init__(self, idFalta, idEmpleado, fecha, tipo="Inasistencia", motivo="", justificada=False):
+    def __init__(self, idFalta=None, idEmpleado=None, fecha=None, tipo="Inasistencia", motivo="", justificada=False):
         self.idFalta = idFalta
         self.idEmpleado = idEmpleado
         self.fecha = fecha
@@ -18,23 +18,38 @@ class Falta:
 
     def registrar(self, DB, estadoAusenteId=2):
         cursor = DB.cursor()
-        sql = """
-            INSERT INTO asistencia (empleado_id, fecha, hora_entrada, hora_salida, estado_asistencia)
-            VALUES (?, ?, '00:00:00', '00:00:00', ?)
-        """
-        valores = (self.idEmpleado, self.fecha, estadoAusenteId)
-
+        
         try:
-            cursor.execute(sql, valores)
-            DB.commit()
+            # 1. Insertamos la asistencia como ausente
+            sql_asistencia = """
+                INSERT INTO asistencia (empleado_id, fecha, hora_entrada, hora_salida, estado_asistencia)
+                VALUES (?, ?, '00:00:00', '00:00:00', ?)
+            """
+            cursor.execute(sql_asistencia, (self.idEmpleado, self.fecha, estadoAusenteId))
             self.idFalta = cursor.lastrowid
-            print("Falta registrada con exito.")
+
+            # 2. Si viene marcada como justificada desde el formulario, la guardamos de una
+            if self.justificada:
+                if self.motivo:
+                    motivo_a_usar = self.motivo
+                else:
+                    motivo_a_usar = "Sin motivo especificado"
+                # Llamamos a la función existente asegurando que use la misma conexión
+                exito_justificacion = self.justificar(DB, motivo_a_usar)
+                if not exito_justificacion:
+                    raise Exception("Fallo al intentar justificar la falta durante el registro.")
+
+            DB.commit()
+            print("Falta registrada con éxito.")
             return True
-        except:
-            print("Error al registrar la falta.")
+            
+        except Exception as e:
+            DB.rollback()
+            print(f"Error al registrar la falta: {e}")
             return False
 
     def justificar(self, DB, motivo):
+        """Función independiente para justificar la falta en cualquier momento posterior."""
         cursor = DB.cursor()
         sql = """
             INSERT INTO justificacion (asistencia_id, motivo, fecha_solicitud, justificado)
@@ -47,21 +62,21 @@ class Falta:
             DB.commit()
             self.motivo = motivo
             self.justificada = True
-            print("Falta justificada con exito.")
+            print("Falta justificada con éxito.")
             return True
-        except:
-            print("Error al justificar la falta.")
+        except Exception as e:
+            print(f"Error al justificar la falta: {e}")
             return False
 
-    def anular(self, DB):
+    def anular(self, DB, estadoPresenteId=1):
         cursor = DB.cursor()
-        sql = "DELETE FROM asistencia WHERE asistencia_id = ?"
+        sql = "UPDATE asistencia SET estado_asistencia = ? WHERE asistencia_id = ?"
 
         try:
-            cursor.execute(sql, (self.idFalta,))
+            cursor.execute(sql, (estadoPresenteId, self.idFalta))
             DB.commit()
-            print("Falta anulada con exito.")
+            print("Falta anulada (estado revertido) con éxito.")
             return True
-        except:
-            print("Error al anular la falta.")
+        except Exception as e:
+            print(f"Error al anular la falta: {e}")
             return False

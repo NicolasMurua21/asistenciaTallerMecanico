@@ -6,6 +6,8 @@ sys.path.append(current_dir)
 sys.path.append(root_dir)
 
 import baseDatos
+from pydantic import BaseModel
+from typing import Optional
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +15,8 @@ from clases.administrador import Administrador
 from clases.empleado import Empleado
 from salidaintermedia import salidaIntermedia
 from registroasistencia import registroAsistencia
+from clases.reporteasistencia import ReporteAsistencia
+from falta import Falta
 
 # Inicialización única
 DB = baseDatos.inicializar_base_datos()
@@ -26,6 +30,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class RegistrarAusenciaRequest(BaseModel):
+    empleado_id: int
+    fecha: str
+    justificada: bool  # True si eligió "Justificada", False si eligió "Injustificada"
+    motivo: Optional[str] = ""
+    tipo: Optional[str] = "Inasistencia"
+
 
 def manejar_respuesta_negocio(resultado):
     if resultado == "FALTAN DATOS":
@@ -132,3 +144,94 @@ def marcarSalidaIntermedia(pin : str):
 def reingreso(pin : str):
     id_empleado = Empleado.obtenerID(DB, pin)
     return salidaIntermedia.registrar_reingreso(DB, id_empleado)
+
+
+@app.post("/api/admin/faltas/registrar")
+def api_registrar_ausencia(data: RegistrarAusenciaRequest):
+    cursor = DB.cursor()
+    
+    try:
+        # 1. Verificamos si ya existe una ausencia (o registro) para ese empleado en esa fecha
+        cursor.execute(
+            "SELECT asistencia_id FROM asistencia WHERE empleado_id = ? AND fecha = ?", 
+            (data.empleado_id, data.fecha)
+        )
+        existente = cursor.fetchone()
+        
+        if existente:
+            raise HTTPException(
+                status_code=400, 
+                detail="El empleado ya tiene un registro de asistencia o ausencia cargado para esta fecha."
+            )
+
+        # 2. Si no existe, procedemos a crear la instancia y registrar
+        nueva_falta = Falta(
+            idEmpleado=data.empleado_id,
+            fecha=data.fecha,
+            tipo=data.tipo,
+            motivo=data.motivo,
+            justificada=data.justificada
+        )
+        
+        exito = nueva_falta.registrar(DB)
+        
+        if exito:
+            return {"success": True, "mensaje": "Ausencia registrada correctamente", "idFalta": nueva_falta.idFalta}
+        else:
+            raise HTTPException(status_code=400, detail="No se pudo registrar la ausencia en la base de datos.")
+            
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@app.get("/api/admin/empleados")
+def listar_empleados():
+    try:
+        cursor = DB.cursor()
+        cursor.execute("SELECT empleado_id, nombre, apellido FROM empleado ORDER BY apellido, nombre")
+        resultados = cursor.fetchall()
+        
+        empleados = []
+        for row in resultados:
+            empleados.append({
+                "empleado_id": row[0],
+                "nombre": row[1],
+                "apellido": row[2]
+            })
+            
+        return {"success": True, "empleados": empleados}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/admin/faltas/historial")
+def api_historial_ausencias(empleado_id: Optional[int] = None):
+    try:
+        # Llamamos directamente al método que ya tienes implementado
+        # (Asumiendo que la clase se llama Asistencia o Falta, ajusta el nombre según corresponda)
+        resultados, _ = ReporteAsistencia.consultar(DB, empleado_id=empleado_id)
+        
+        historial = []
+        for reg in resultados: 
+            # reg según tu query devuelve: 
+            # [0] asistencia_id, [1] nombre, [2] apellido, [3] fecha, 
+            # [4] hora_entrada, [5] hora_salida, [6] nombre_estado, [7] hora_fuera
+            
+            # Determinamos si está justificada consultando la tabla justificacion
+            cursor = DB.cursor()
+            cursor.execute("SELECT motivo FROM justificacion WHERE asistencia_id = ?", (reg[0],))
+            justificacion = cursor.fetchone()
+            
+            historial.append({
+                "id": reg[0],
+                "emplebado_nombre": f"{reg[2]}, {reg[1]}", # Apellido, Nombre
+                "fecha": reg[3],
+                "estado": reg[6] or "Ausente",
+                "justificada": bool(justificacion),
+                "motivo": justificacion[0] if justificacion else ""
+            })
+            
+        return {"success": True, "ausencias": historial}
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al obtener el historial: {str(e)}")
