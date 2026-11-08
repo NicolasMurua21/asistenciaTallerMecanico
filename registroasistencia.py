@@ -5,11 +5,13 @@ from datetime import datetime
 class registroAsistencia:
     def registrarIngreso(DB, empleado_id):
 
+        #abrimos base de datos
         cursor = DB.cursor()
 
         fecha_actual = datetime.now().strftime("%Y-%m-%d")
         hora_actual = datetime.now().strftime("%H:%M:%S")
 
+        #buscamos el id de la asistencia
         cursor.execute(
             """
             SELECT asistencia_id
@@ -20,10 +22,11 @@ class registroAsistencia:
         )
 
         asistencia = cursor.fetchone()
-
+        #comprobamos que ya no tenga un ingreso hoy, si es nulo significa que no tiene uno, si no es nulo significa que ya firmo
         if asistencia is not None:
             return "YA REGISTRO EL INGRESO HOY"
 
+        #insertamos el ingreso del dia
         cursor.execute(
             """
             INSERT INTO asistencia
@@ -33,6 +36,7 @@ class registroAsistencia:
             (empleado_id, fecha_actual, hora_actual, None, 1)
         )
 
+        #guardamos
         DB.commit()
 
         return "INGRESO REGISTRADO"
@@ -40,11 +44,13 @@ class registroAsistencia:
 
     def registrarSalida(DB, empleado_id):
 
+        #abrimos base de datos
         cursor = DB.cursor()
 
         fecha_actual = datetime.now().strftime("%Y-%m-%d")
         hora_actual = datetime.now().strftime("%H:%M:%S")
 
+        #buscamos el id de la asistencia con el empleado id y fecha del dia
         cursor.execute(
             """
             SELECT asistencia_id, hora_entrada, hora_salida
