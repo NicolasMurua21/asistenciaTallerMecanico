@@ -62,16 +62,20 @@ class registroAsistencia:
 
         asistencia = cursor.fetchone()
 
+        #si es nulo significa que no firmo el ingreso y debe hacerlo
         if asistencia is None:
             return "NO HAY INGRESO REGISTRADO HOY"
 
+        #guardamos distintos campos
         asistencia_id = asistencia[0]
         hora_entrada = asistencia[1]
         hora_salida = asistencia[2]
 
+        #si tiene la hora de la salida, significa que ya se registro un ingreso
         if hora_salida is not None:
             return "YA REGISTRO LA SALIDA"
 
+        #tiramos un update a la asistencia
         cursor.execute(
             """
             UPDATE asistencia
@@ -81,11 +85,13 @@ class registroAsistencia:
             (hora_actual, asistencia_id)
         )
 
+        #guadamos
         DB.commit()
 
         return "SALIDA REGISTRADA"
 
 
+    #calcula la horas trabajadas y la devuelve en horas redondeada
     def calcularHorasTrabajadas(DB, empleado_id):
 
         cursor = DB.cursor()
