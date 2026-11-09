@@ -39,6 +39,13 @@ class RegistrarAusenciaRequest(BaseModel):
     tipo: Optional[str] = "Inasistencia"
 
 
+class AsignarTurnoRequest(BaseModel):
+    turno_id: int
+    dni: str
+    fecha_desde: str
+    fecha_hasta: str
+
+
 def manejar_respuesta_negocio(resultado):
     if resultado == "FALTAN DATOS":
         raise HTTPException(status_code=400, detail="Faltan datos obligatorios")
@@ -261,3 +268,51 @@ def api_historial_ausencias(empleado_id: Optional[int] = None):
     except Exception as e:
         print(f"Error general en historial: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error al obtener el historial: {str(e)}")
+
+@app.post("/api/admin/turnos/asignar")
+def api_asignar_turno(data: AsignarTurnoRequest):
+    try:
+        cursor = DB.cursor()
+        
+        # Buscamos el empleado directamente por su documento
+        cursor.execute("SELECT empleado_id FROM empleado WHERE documento = ?", (data.dni,))
+        emp = cursor.fetchone()
+        
+        if not emp:
+            raise HTTPException(status_code=404, detail="No se encontró ningún empleado con ese DNI.")
+        
+        empleado_id = emp[0]
+        
+        # Insertamos la asignación de turno
+        cursor.execute("""
+            INSERT INTO asignacion_turno (empleado_id, turno_id, fecha_desde, fecha_hasta)
+            VALUES (?, ?, ?, ?)
+        """, (empleado_id, data.turno_id, data.fecha_desde, data.fecha_hasta))
+        
+        DB.commit()
+        return {"success": True, "message": "Turno asignado con éxito."}
+        
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al asignar el turno: {str(e)}")
+
+@app.get("/api/admin/turnos")
+def api_listar_turnos():
+    try:
+        cursor = DB.cursor()
+        cursor.execute("SELECT turno_id, nombre_turno, hora_inicio, hora_fin FROM turno")
+        turnos_db = cursor.fetchall()
+        
+        lista_turnos = []
+        for t in turnos_db:
+            lista_turnos.append({
+                "turno_id": t[0],
+                "nombre_turno": t[1],
+                "hora_inicio": t[2],
+                "hora_fin": t[3]
+            })
+            
+        return {"success": True, "turnos": lista_turnos}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
