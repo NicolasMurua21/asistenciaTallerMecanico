@@ -17,16 +17,16 @@ class CorreccionRegistro:
             "hora_salida": hora_salida,
             "fecha": fecha,
             "hora_entrada": hora_entrada,
-            "estado_asistencia": estado_asistencia,
+            "estado_asistencia": estado_asistencia, # Este parámetro mapea directamente al campo de la BD
             "hora_fuera": hora_fuera
         }
         
-        
+        # Filtramos y obtenemos únicamente los valores de los campos que el usuario decidió modificar
         valoresNuevos = [valores_disponibles[campo] for campo in camposModificar]
         
         cursor = DB.cursor()
         
-        
+        # Construimos la consulta SQL dinámica con los campos a modificar
         set_clause = ", ".join([f"{campo} = ?" for campo in camposModificar])
         
         parametros = tuple(valoresNuevos) + (id_registro,)
@@ -40,6 +40,7 @@ class CorreccionRegistro:
 
         # Devuelve la cantidad de filas cambiadas (True si fue exitoso, False si no)
         return cursor.rowcount > 0
+    
     @classmethod
     def deshacer(cls, DB, id_correccion):
         cursor = DB.cursor()

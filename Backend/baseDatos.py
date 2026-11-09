@@ -54,7 +54,6 @@ def inicializar_base_datos():
     estados_iniciales = [
         ("Presente",),
         ("Ausente",),
-        ("Tarde",),
         ("Justificado",)
     ]
     cursor.executemany("""

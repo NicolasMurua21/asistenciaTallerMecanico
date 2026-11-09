@@ -13,10 +13,18 @@ from Backend import baseDatos
 
 class Administrador:
    
-    def corregirRegistro(DB, DNI, fechaEmpleado ,camposModificar,  hora_salida = None, fecha = None, hora_entrada = None, estado_asistencia = None, hora_fuera = None ):
+    @classmethod
+    def corregirRegistro(cls, DB, DNI, fechaEmpleado, camposModificar, hora_salida=None, fecha=None, hora_entrada=None, estado_asistencia=None, hora_fuera=None, estado=None):
+        # Si el frontend envía 'estado', lo mapeamos a 'estado_asistencia'
+        if estado and not estado_asistencia:
+            estado_asistencia = estado
+            if "estado_asistencia" not in camposModificar:
+                camposModificar.append("estado_asistencia")
+
         try:
             if not DB or not DNI or not fechaEmpleado or not camposModificar:
                 return "FALTAN DATOS"
+            
             cursor = DB.cursor()
             cursor.execute(
                 "SELECT empleado_id FROM empleado WHERE documento = ?", 
@@ -33,10 +41,20 @@ class Administrador:
             asistencia = cursor.fetchone()
 
             if asistencia:
-                return CorreccionRegistro.aplicar(DB, asistencia[0], camposModificar, hora_salida = hora_salida, fecha = fecha, hora_entrada = hora_entrada, estado_asistencia = estado_asistencia, hora_fuera = hora_fuera )
+                return CorreccionRegistro.aplicar(
+                    DB, 
+                    asistencia[0], 
+                    camposModificar, 
+                    hora_salida=hora_salida, 
+                    fecha=fecha, 
+                    hora_entrada=hora_entrada, 
+                    estado_asistencia=estado_asistencia, 
+                    hora_fuera=hora_fuera
+                )
             else:
                 return None
-        except:
+        except Exception as e:
+            print(f"Error en corregirRegistro: {e}")
             return "ERROR INTERNO"
  
     def gestionarFalta(DB, DNI, fecha, justificar = None, Anular = None, registrar = None, motivo = None, horaEgreso = None, HoraIngreso = None):

@@ -56,16 +56,41 @@ def manejar_respuesta_negocio(resultado):
     return resultado
 
 
-@app.patch("/api/admin/empleados/{dni}/asistencias/{fechaEmpleado}")
-async def corregir_asistencia(dni : str, fechaEmpleado, request: Request):
-    datos = await request.json()
-    if not datos:
-        raise HTTPException(status_code=400, detail="No se enviaron datos")
+from fastapi import FastAPI, Request, HTTPException
+from pydantic import BaseModel
 
-    camposModificar = datos.pop("camposModificar", [])
-    resultado = Administrador.corregirRegistro(DB, dni, fechaEmpleado, camposModificar, **datos)
-    manejar_respuesta_negocio(resultado)
-    return {"mensaje": "Procesado con éxito", "resultado": resultado}
+@app.patch("/api/admin/empleados/{dni}/asistencias/{fechaEmpleado}")
+async def corregir_asistencia(dni: str, fechaEmpleado: str, request: Request):
+    try:
+        datos = await request.json()
+        if not datos:
+            raise HTTPException(status_code=400, detail="No se enviaron datos")
+
+        # Extraemos los campos especiales que viajan en el JSON
+        camposModificar = datos.pop("camposModificar", [])
+        motivo = datos.pop("motivo", None)
+
+        # Llamamos directamente a la clase puente Administrador
+        # **datos desempaqueta los campos de hora_entrada, hora_salida, estado_asistencia, etc.
+        resultado = Administrador.corregirRegistro(DB, dni, fechaEmpleado, camposModificar, **datos)
+
+        # Evaluamos el resultado que devuelve la lógica de negocio
+        if resultado == "FALTAN DATOS":
+            raise HTTPException(status_code=400, detail="Faltan datos obligatorios para la corrección.")
+        if resultado == "EMPLEADO NO EXISTE":
+            raise HTTPException(status_code=404, detail="El empleado no existe.")
+        if resultado is None:
+            raise HTTPException(status_code=404, detail="No se encontró un registro de asistencia para esa fecha.")
+        if resultado == "ERROR INTERNO":
+            raise HTTPException(status_code=500, detail="Error interno al procesar la corrección.")
+
+        return {"mensaje": "Modificación aplicada con éxito", "resultado": resultado}
+        
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        print(f"Error en endpoint corregir_asistencia: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al corregir asistencia: {str(e)}")
 
 
 @app.patch("/api/admin/empleados/{dni}/faltas/{fecha}")
@@ -316,3 +341,17 @@ def api_listar_turnos():
         return {"success": True, "turnos": lista_turnos}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/admin/estados")
+def obtener_estados():
+    try:
+        cursor = DB.cursor()
+        # Apuntamos a la tabla 'estado_asistencia' y sus columnas reales
+        cursor.execute("SELECT estado_id, nombre_estado FROM estado_asistencia") 
+        filas = cursor.fetchall()
+        
+        estados = [{"id": row[0], "nombre": row[1]} for row in filas]
+        return {"success": True, "estados": estados}
+    except Exception as e:
+        print(f"Error al obtener estados: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error al obtener los estados: {str(e)}")

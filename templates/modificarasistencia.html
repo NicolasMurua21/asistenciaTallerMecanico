@@ -85,27 +85,7 @@
               <label for="input-fecha">Fecha</label>
               <input type="date" id="input-fecha" value="2026-01-14">
             </div>
-
-            <button type="button" id="btn-buscar-registro">
-              Buscar registro
-            </button>
           </div>
-
-          <!-- Card Datos del Empleado -->
-          <div class="card-empleado">
-            <div>
-              <h3>Seleccione un empleado</h3>
-              <p>DNI: ---</p>
-              <p>Legajo: ---</p>
-            </div>
-            <div>
-              <p><strong>Turno asignado:</strong> ---</p>
-            </div>
-            <div>
-              <p><strong>Horario turno:</strong> --- a ---</p>
-            </div>
-          </div>
-        </section>
 
         <!-- 2. Editar registros de asistencia -->
         <section>
@@ -149,6 +129,15 @@
           </table>
 
           <p class="nota-informativa">Deje en blanco los campos que no desea modificar. Solo se actualizarán los horarios ingresados.</p>
+        </section>
+
+        <!-- Cambiar Estado de Asistencia -->
+        <section>
+          <h2>Modificar Estado de Asistencia</h2>
+          <label for="select-nuevo-estado">Nuevo estado del registro</label>
+          <select id="select-nuevo-estado">
+            <option value="">Sin cambios en el estado...</option>
+          </select>
         </section>
 
         <!-- 3. Guardar cambios -->
