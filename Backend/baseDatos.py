@@ -26,7 +26,8 @@ def inicializar_base_datos():
             apellido TEXT NOT NULL,
             documento TEXT NOT NULL UNIQUE,
             pin INTEGER NOT NULL,
-            fecha_ingreso TEXT NOT NULL
+            fecha_ingreso TEXT NOT NULL,
+            activo BOOL NOT NULL
         );
     """)
 

@@ -56,19 +56,47 @@ class Empleado:
         
     @classmethod
     def registrarNuevo(cls, DB, dni, nombre, apellido):
-      try:
-        pin = dni
-        cursor = DB.cursor()
-        cursor.execute(
-            "INSERT INTO empleado (documento, nombre, apellido, pin, fecha_ingreso) VALUES (?, ?,"
-            " ?, ?, DATE('now'))",
-            (dni, nombre, apellido, pin),
-        )
-        DB.commit()
+        try:
+            pin = dni
+            cursor = DB.cursor()
+            cursor.execute(
+                """
+                INSERT INTO empleado (documento, nombre, apellido, pin, fecha_ingreso, activo) 
+                VALUES (?, ?, ?, ?, DATE('now'), 1)
+                """,
+                (dni, nombre, apellido, pin),
+            )
+            DB.commit()
+            return "Empleado Registrado"
+        except sqlite3.IntegrityError:
+            return "El empleado ya esta registrado"
+        except Exception as e:
+            print(f"Error inesperado al registrar empleado: {e}")
+            return "ERROR INTERNO"
 
-        return "Empleado Registrado"
-      except:
-          return "El empleado ya esta registrado"
+    @classmethod
+    def cambiarEstadoActivo(cls, DB, empleado_id, activo):
+        try:
+            if not DB or not empleado_id:
+                return "FALTAN DATOS"
+            
+            cursor = DB.cursor()
+            
+            # Actualizamos directamente por ID
+            cursor.execute(
+                "UPDATE empleado SET activo = ? WHERE empleado_id = ?", 
+                (1 if activo else 0, empleado_id)
+            )
+            DB.commit()
+            
+            # Verificamos si realmente se actualizó algún registro
+            if cursor.rowcount == 0:
+                return "EMPLEADO NO EXISTE"
+                
+            return True
+        except Exception as e:
+            print(f"Error al cambiar estado activo: {e}")
+            return "ERROR INTERNO"
       
 
     def obtenerID(DB, dni = None, pin = None):

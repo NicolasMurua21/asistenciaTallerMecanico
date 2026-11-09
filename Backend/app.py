@@ -355,3 +355,26 @@ def obtener_estados():
     except Exception as e:
         print(f"Error al obtener estados: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error al obtener los estados: {str(e)}")
+
+@app.patch("/api/admin/empleados/{empleado_id}/estado")
+async def actualizar_estado_empleado(empleado_id: int, request: Request):
+    try:
+        datos = await request.json()
+        activo = datos.get("activo", False) # True o False según mandes desde el JS
+
+        # Pasamos el empleado_id en lugar del DNI
+        resultado = Empleado.cambiarEstadoActivo(DB, empleado_id, activo)
+
+        if resultado == "FALTAN DATOS":
+            raise HTTPException(status_code=400, detail="Faltan datos obligatorios.")
+        if resultado == "EMPLEADO NO EXISTE":
+            raise HTTPException(status_code=404, detail="El empleado no existe.")
+        if resultado == "ERROR INTERNO":
+            raise HTTPException(status_code=500, detail="Error interno del servidor.")
+
+        return {"mensaje": "Estado actualizado con éxito", "activo": activo}
+        
+    except HTTPException as he:
+        raise he
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
