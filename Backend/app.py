@@ -207,31 +207,57 @@ def listar_empleados():
 @app.get("/api/admin/faltas/historial")
 def api_historial_ausencias(empleado_id: Optional[int] = None):
     try:
-        # Llamamos directamente al método que ya tienes implementado
-        # (Asumiendo que la clase se llama Asistencia o Falta, ajusta el nombre según corresponda)
         resultados, _ = ReporteAsistencia.consultar(DB, empleado_id=empleado_id)
         
         historial = []
         for reg in resultados: 
-            # reg según tu query devuelve: 
-            # [0] asistencia_id, [1] nombre, [2] apellido, [3] fecha, 
-            # [4] hora_entrada, [5] hora_salida, [6] nombre_estado, [7] hora_fuera
-            
-            # Determinamos si está justificada consultando la tabla justificacion
-            cursor = DB.cursor()
-            cursor.execute("SELECT motivo FROM justificacion WHERE asistencia_id = ?", (reg[0],))
-            justificacion = cursor.fetchone()
-            
-            historial.append({
-                "id": reg[0],
-                "emplebado_nombre": f"{reg[2]}, {reg[1]}", # Apellido, Nombre
-                "fecha": reg[3],
-                "estado": reg[6] or "Ausente",
-                "justificada": bool(justificacion),
-                "motivo": justificacion[0] if justificacion else ""
-            })
+            try:
+                asistencia_id = reg[0]
+                nombre = reg[1]
+                apellido = reg[2]
+                fecha = reg[3]
+                nombre_estado = reg[6] if len(reg) > 6 else "Ausente"
+                
+                cursor = DB.cursor()
+                documento = "-"
+                turno = "-"
+                
+                # Buscamos el documento y el nombre del turno actual asignado al empleado
+                try:
+                    cursor.execute("""
+                        SELECT e.documento, t.nombre_turno 
+                        FROM empleado e
+                        LEFT JOIN asignacion_turno a ON e.empleado_id = a.empleado_id 
+                        LEFT JOIN turno t ON a.turno_id = t.turno_id
+                        WHERE e.nombre = ? AND e.apellido = ?
+                        LIMIT 1
+                    """, (nombre, apellido))
+                    emp_info = cursor.fetchone()
+                    if emp_info:
+                        documento = emp_info[0] or "-"
+                        turno = emp_info[1] or "-"
+                except Exception as e:
+                    pass
+
+                cursor.execute("SELECT motivo FROM justificacion WHERE asistencia_id = ?", (asistencia_id,))
+                justificacion = cursor.fetchone()
+                
+                historial.append({
+                    "id": asistencia_id,
+                    "emplebado_nombre": f"{apellido}, {nombre}",
+                    "dni": documento,
+                    "turno": turno,
+                    "fecha": fecha,
+                    "estado": nombre_estado or "Ausente",
+                    "justificada": bool(justificacion),
+                    "motivo": justificacion[0] if justificacion else ""
+                })
+            except Exception as inner_e:
+                print(f"Error en registro individual: {inner_e}")
+                continue
             
         return {"success": True, "ausencias": historial}
         
     except Exception as e:
+        print(f"Error general en historial: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error al obtener el historial: {str(e)}")
