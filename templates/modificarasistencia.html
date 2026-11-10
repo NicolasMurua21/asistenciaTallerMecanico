@@ -17,27 +17,22 @@
       </div>
 
       <nav>
-        <button type="button" id="btn-nav-inicio">
+        <button type="button" id="btn-nav-inicio" onclick="location.href='paneladmin.html'">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           Inicio
         </button>
 
-        <button type="button" id="btn-nav-presentismo">
+        <button type="button" id="btn-nav-presentismo" onclick="location.href='presentismo.html'">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/></svg>
           Ver Presentismo
         </button>
 
-        <button type="button" id="btn-nav-historial">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Historial de Asistencias
-        </button>
-
-        <button type="button" id="btn-nav-turnos">
+        <button type="button" id="btn-nav-turnos" onclick="location.href='GestionDeTurnos.html'">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           Gestionar Turnos
         </button>
 
-        <button type="button" id="btn-nav-ausencias">
+        <button type="button" id="btn-nav-ausencias" onclick="location.href='ausencias.html'">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/></svg>
           Registrar Ausencias
         </button>
@@ -47,14 +42,14 @@
           Modificar Asistencia
         </button>
 
-        <button type="button" id="btn-nav-excel">
+        <button type="button" id="btn-nav-excel" onclick="location.href='excel.html'">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           Exportar a Excel
         </button>
       </nav>
     </div>
 
-    <button type="button" id="btn-cerrar-sesion">
+    <button type="button" id="btn-cerrar-sesion" onclick="location.href='index.html'">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       Cerrar sesión
     </button>
@@ -90,27 +85,7 @@
               <label for="input-fecha">Fecha</label>
               <input type="date" id="input-fecha" value="2026-01-14">
             </div>
-
-            <button type="button" id="btn-buscar-registro">
-              Buscar registro
-            </button>
           </div>
-
-          <!-- Card Datos del Empleado -->
-          <div class="card-empleado">
-            <div>
-              <h3>Seleccione un empleado</h3>
-              <p>DNI: ---</p>
-              <p>Legajo: ---</p>
-            </div>
-            <div>
-              <p><strong>Turno asignado:</strong> ---</p>
-            </div>
-            <div>
-              <p><strong>Horario turno:</strong> --- a ---</p>
-            </div>
-          </div>
-        </section>
 
         <!-- 2. Editar registros de asistencia -->
         <section>
@@ -154,6 +129,15 @@
           </table>
 
           <p class="nota-informativa">Deje en blanco los campos que no desea modificar. Solo se actualizarán los horarios ingresados.</p>
+        </section>
+
+        <!-- Cambiar Estado de Asistencia -->
+        <section>
+          <h2>Modificar Estado de Asistencia</h2>
+          <label for="select-nuevo-estado">Nuevo estado del registro</label>
+          <select id="select-nuevo-estado">
+            <option value="">Sin cambios en el estado...</option>
+          </select>
         </section>
 
         <!-- 3. Guardar cambios -->

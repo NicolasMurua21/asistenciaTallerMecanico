@@ -26,7 +26,8 @@ def inicializar_base_datos():
             apellido TEXT NOT NULL,
             documento TEXT NOT NULL UNIQUE,
             pin INTEGER NOT NULL,
-            fecha_ingreso TEXT NOT NULL
+            fecha_ingreso TEXT NOT NULL,
+            activo BOOL NOT NULL
         );
     """)
 
@@ -50,6 +51,16 @@ def inicializar_base_datos():
             nombre_estado TEXT NOT NULL
         );
     """)
+
+    estados_iniciales = [
+        ("Presente",),
+        ("Ausente",),
+        ("Justificado",)
+    ]
+    cursor.executemany("""
+        INSERT OR IGNORE INTO estado_asistencia (estado_id, nombre_estado) 
+        SELECT ?, ? WHERE NOT EXISTS (SELECT 1 FROM estado_asistencia WHERE estado_id = ?);
+    """, [(i+1, estado[0], i+1) for i, estado in enumerate(estados_iniciales)])
 
     # Tabla ASISTENCIA
     cursor.execute("""

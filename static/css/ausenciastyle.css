@@ -1,4 +1,33 @@
+.absence-types {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
 
+.type-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #fafafa;
+    transition: all 0.2s ease;
+}
+
+/* Estado activo / seleccionado para Justificada */
+.justified-option.selected {
+    border-color: #2e7d32;
+    background-color: #e8f5e9;
+}
+
+/* Estado activo / seleccionado para Injustificada */
+.unjustified-option.selected {
+    border-color: #c62828;
+    background-color: #ffebee;
+}
 * {
     margin: 0;
     padding: 0;

@@ -1,0 +1,5 @@
+﻿ID Asistencia,Nombre,Apellido,Fecha,Ingreso,Salida,Estado,Hora Fuera,Horas Trabajadas
+9,Nicolas,Murua,2026-01-02,00:00:00,00:00:00,Ausente,,0h 0m
+8,Nicolas,Murua,2026-01-01,00:00:00,00:00:00,Ausente,,0h 0m
+
+--- TOTAL DE HORAS TRABAJADAS POR EMPLEADO (EN EL PERÍODO) ---
